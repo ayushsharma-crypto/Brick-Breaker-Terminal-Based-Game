@@ -8,6 +8,8 @@ a life when the ball touches the ground below the paddle.
 
 * The code is modular and extensible to new features.
 * Concepts of object oriented programming is present in the code and the game is a basic simulator of brick breaker
+* Libraries used are colorama and numpy
+
 
 ## DESCRIPTION
 
