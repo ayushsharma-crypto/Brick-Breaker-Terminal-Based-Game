@@ -5,31 +5,11 @@ from constants import FRAMEHEIGHT,FRAMEWIDTH
 class Frame:
     def __init__(self, status):
         self.status = status
+        self.current_frame = self.initial_current_frame(FRAMEWIDTH,FRAMEHEIGHT)
 
-    def display_title(self):
+    def initial_current_frame(self,width,height):
         '''
-        This will display the status of the game as the title on terminal.
-        '''
-        os.system('clear')
-        inst_status = self.status.ret_status()
-        print(
-            Fore.BLUE + Style.BRIGHT +
-            (
-                "  SCORE: " +
-                str(inst_status['SCORE']) + 
-                "\t\t\t\t\tLIVES: " + 
-                str(inst_status['LIVES']) + 
-                "\t\t\t\t\tTIME: " + 
-                str(inst_status['TIME']) + 
-                "\t\t\t\t\tSTAGE: " + 
-                str(inst_status['STAGE'])
-            )+ 
-            Style.RESET_ALL
-        )
-    
-    def display_container(self,width,height):
-        
-        '''
+        Initialises the Frame of the Game
         '''
         container = [ [ "" for i in range(width) ] for j in range(height) ]
         for h in range(height):
@@ -46,12 +26,34 @@ class Frame:
             container[h][0]=f"{Fore.MAGENTA}{Style.BRIGHT}|{Style.RESET_ALL}"
             container[h][width-1]=f"{Fore.MAGENTA}{Style.BRIGHT}|{Style.RESET_ALL}"
 
-        for h in range(height):
-            print("".join(container[h]))
+        return container
+
+    def display_title(self):
+        '''
+        This will display the status of the game as the title on terminal.
+        '''
+        os.system('clear')
+        inst_status = self.status.ret_status()
+        print(
+            Fore.BLUE + Style.BRIGHT +
+            (
+                "\n  SCORE: " +
+                str(inst_status['SCORE']) + 
+                "\t\t\t\t\tLIVES: " + 
+                str(inst_status['LIVES']) + 
+                "\t\t\t\t\tTIME: " + 
+                str(inst_status['TIME']) + 
+                "\t\t\t\t\tSTAGE: " + 
+                str(inst_status['STAGE'])
+            )+ 
+            Style.RESET_ALL
+        )
         
     def display(self):
         '''
+        It prints the current Frame of the Game
         '''
         self.display_title()
-        self.display_container(FRAMEWIDTH,FRAMEHEIGHT)
+        for h in range(len(self.current_frame)):
+            print("".join(self.current_frame[h]))
         
