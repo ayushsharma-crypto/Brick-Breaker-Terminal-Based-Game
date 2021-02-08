@@ -17,7 +17,7 @@ class Status:
         self._life = MAXLIFE
         self._kill = 0
         self._score = 0
-        self._stage = 0
+        self._stage = 1
         self._begin_time = time()
 
     def add_kill(self):
@@ -46,7 +46,7 @@ class Status:
         '''
         Returns current time from the start of the Game.
         '''
-        return time()-self._begin_time
+        return int(time()-self._begin_time)
     
     def reset_status(self):
         '''
@@ -54,19 +54,38 @@ class Status:
         '''
         self._kill = 0
         self._score = 0
-        self._stage = 0
+        self._stage = 1
         self._begin_time = time()
 
-    def print_status(self):
+    def ret_status(self):
         '''
-        Print status of the Game
+        Return status of the Game
         '''
-        print(
-            'Score:',self._score,
-            'Lives:',str(self._life-self._kill)+'/'+str(self._life),
-            'Time:',self.get_time(),
-            'Stage:',self._stage
-        )
+        return {
+            'SCORE':self._score,
+            'LIVES':str(self._life-self._kill)+'/'+str(self._life),
+            'TIME':self.get_time(),
+            'STAGE':self._stage
+        }
+
+    # def print_status(self):
+    #     '''
+    #     Print status of the Game
+    #     '''
+    #     print(
+    #         "\033[2;1H" + 
+    #         Fore.WHITE + Back.BLUE + Style.BRIGHT + 
+    #         ("    SCORE: " + 
+    #         str(self._score) + 
+    #         "    |    LIVES: " + 
+    #         str(str(self._life-self._kill)+'/'+str(self._life)) + 
+    #         "    |    TIME: " +
+    #         str(self.get_time()) + 
+    #         "    |    STAGE: " + 
+    #         str(self._stage) +
+    #         "    " )
+    #         )
+    #     print(Style.RESET_ALL)    
     
     def start_game(self):
         '''
