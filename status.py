@@ -70,5 +70,6 @@ class Status:
     
     def start_game(self):
         '''
+        Game will get started for given status
         '''
         _ = Manager(self)
