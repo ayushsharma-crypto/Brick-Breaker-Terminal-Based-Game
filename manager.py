@@ -1,6 +1,7 @@
 from frame import Frame
 from paddle import Paddle
 from user import KBHit
+from time import time
 
 class Manager:
     def __init__(self, game_status):
@@ -11,14 +12,25 @@ class Manager:
         self.frame = Frame(self.game_status)
         self.paddle = Paddle(self.frame)
         self.frame.display()
+
+        tic = time()        
         while True:
-            self.schedular()
+            flag = False
+            toc = time()
+            # print(tic,toc)
+            if (toc - tic) >= 0.06 :
+                flag =True
+                tic = toc
+            self.schedular(flag)
     
-    def schedular(self):
+    def schedular(self,flag):
         '''
         Order of execution at each iteration.
-        ''' 
+        '''
         self.user_input()
+        if flag==True:
+            self.frame.display()
+            # print('flag')
 
 
     def user_input(self):
@@ -26,7 +38,9 @@ class Manager:
         Getting input from the user for paddle movement
         '''
         kb = KBHit()
+
         ch = kb.getinput()
+        
         if ch == 'a' or ch == 'A':
             self.paddle.move_left()
         elif ch == 'd' or ch == 'D':

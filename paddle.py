@@ -1,9 +1,10 @@
 from random import randint
 from colorama import Fore,Back,Style
-from constants import FRAMEHEIGHT,FRAMEWIDTH,PADDLEHEIGHT,PADDLEWIDTH,Point,Dimension
+from constants import PADDLESTEPX,FRAMEHEIGHT,FRAMEWIDTH,PADDLEHEIGHT,PADDLEWIDTH,Point,Dimension
 
 class Paddle:
     def __init__(self,frame):
+        self.paddlestepx = PADDLESTEPX
         self.frame = frame
         self.shape = self.initial_shape(PADDLEWIDTH,PADDLEHEIGHT)
         self.dimension = Dimension(PADDLEWIDTH,PADDLEHEIGHT)
@@ -21,17 +22,36 @@ class Paddle:
         return shape
     
     def draw(self):
-        '''How to render on board'''
+        '''
+        Render paddle on the base Frame
+        '''
         self.frame.update_frame(self.point, self.shape, self.dimension)
     
     def move_left(self):
         '''
         Logic for moving paddle left
         '''
-        print("hi1")
+        if(self.point.x <= 2):
+            return False
+        new_point = Point(
+            self.point.x - PADDLESTEPX,
+            self.point.y
+        )
+        self.frame.restore_frame(new_point,self.shape,self.dimension,self.point,self.shape,self.dimension)
+        self.point = new_point
+        return True
         
+    
     def move_right(self):
         '''
-        Logic for moving paddle left
+        Logic for moving paddle right
         '''
-        print("hi2")
+        if(self.point.x + self.dimension.width >= FRAMEWIDTH-2):
+            return False
+        new_point = Point(
+            self.point.x + PADDLESTEPX,
+            self.point.y
+        )
+        self.frame.restore_frame(new_point,self.shape,self.dimension,self.point,self.shape,self.dimension)
+        self.point = new_point
+        return True

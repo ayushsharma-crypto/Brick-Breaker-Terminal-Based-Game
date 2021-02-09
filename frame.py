@@ -4,6 +4,7 @@ from constants import FRAMEHEIGHT,FRAMEWIDTH
 
 class Frame:
     def __init__(self, status):
+        self.temp =0
         self.status = status
         self.current_frame = self.initial_current_frame(FRAMEWIDTH,FRAMEHEIGHT)        
 
@@ -11,8 +12,23 @@ class Frame:
     def update_frame(self,point,shape,dimension):
         '''
         It update the current Frame of the Game.
-        Basically for add another object on top of it effect.
+        Basically for add another object on top of it base frame.
         '''
+        for h in range(dimension.height):
+            for w in range(dimension.width):
+                self.current_frame[point.y + h][point.x + w] = shape[h][w]
+    
+    def restore_frame(self,point,shape,dimension,old_point,old_shape,old_dimension):
+        '''
+        It restore the Frame of the Game.
+        Basically for moving another object on top of it base frame.
+        '''
+        for h in range(old_dimension.height):
+            for w in range(old_dimension.width):
+                self.current_frame[old_point.y + h][old_point.x + w] = " "
+                # print(
+                #     f"\033[{old_point.x + w};{old_point.y + h+1}H"+"h",end =""
+                #     )
         for h in range(dimension.height):
             for w in range(dimension.width):
                 self.current_frame[point.y + h][point.x + w] = shape[h][w]
@@ -22,7 +38,9 @@ class Frame:
         '''
         This will display the status of the game as the title on terminal.
         '''
-        os.system('clear')
+        os.system('tput reset')
+        print(self.temp)
+        self.temp += 1
         inst_status = self.status.ret_status()
         print(
             Fore.BLUE + Style.BRIGHT +
