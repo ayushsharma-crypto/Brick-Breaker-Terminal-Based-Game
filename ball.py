@@ -100,14 +100,14 @@ class Ball:
         if self.direction_x==False:
             if self.frame.current_frame[self.point.y][self.point.x-1]!=" ":
                 self.direction_x = True
-                return False
+                return self.point.x+self.speedx
             else:
                 return self.point.x-self.speedx
         
         else:
             if self.frame.current_frame[self.point.y][self.point.x+self.dimension.width]!=" ":
                 self.direction_x = False
-                return False
+                return self.point.x-self.speedx
             else:          
                 return self.point.x+self.speedx
 
@@ -128,7 +128,7 @@ class Ball:
             for i in range(self.dimension.width):
                 if self.frame.current_frame[self.point.y+1][i+self.point.x]!=" ":
                     self.direction_y = True
-                    return False
+                    return self.point.y-self.speedy
         
             return self.point.y+self.speedy
         
@@ -136,7 +136,7 @@ class Ball:
             for i in range(self.dimension.width):
                 if self.frame.current_frame[self.point.y-1][i+self.point.x]!=" ":
                     self.direction_y = False
-                    return False
+                    return self.point.y+self.speedy
 
             return self.point.y-self.speedy
 
