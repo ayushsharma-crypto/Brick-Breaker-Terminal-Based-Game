@@ -1,5 +1,6 @@
 from frame import Frame
 from paddle import Paddle
+from ball import Ball
 from time import time
 from input import Get,input_to
 
@@ -11,6 +12,7 @@ class Manager:
         self.game_status = game_status
         self.frame = Frame(self.game_status)
         self.paddle = Paddle(self.frame)
+        self.ball = Ball(self.frame,self.paddle)
         self.frame.display()
 
         tic = time()        
@@ -45,3 +47,5 @@ class Manager:
             self.paddle.move_right()
         elif ch1 == 'q' or ch1 =='Q':
             quit()
+        
+        self.ball.move_with_paddle()
