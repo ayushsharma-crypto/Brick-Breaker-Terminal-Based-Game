@@ -17,7 +17,7 @@ class Manager:
         while True:
             flag = False
             toc = time()
-            if (toc - tic) >= 0.1:
+            if (toc - tic) >= 0.01:
                 flag =True
                 tic = toc
             self.schedular(flag)

@@ -1,5 +1,8 @@
 from random import randint
+from time import time
+import time as tm
 from colorama import Fore,Back,Style
+from typing_extensions import final
 from constants import PADDLESTEPX,FRAMEHEIGHT,FRAMEWIDTH,PADDLEHEIGHT,PADDLEWIDTH,Point,Dimension
 
 class Paddle:
@@ -31,10 +34,14 @@ class Paddle:
         '''
         Logic for moving paddle left
         '''
-        if(self.point.x <= 2):
+        if(self.point.x <= 1):
             return False
+        
+        final_posx = self.point.x - PADDLESTEPX
+        if(self.point.x <= PADDLESTEPX):
+            final_posx = 1
         new_point = Point(
-            self.point.x - PADDLESTEPX,
+            final_posx,
             self.point.y
         )
         self.frame.restore_frame(new_point,self.shape,self.dimension,self.point,self.shape,self.dimension)
@@ -46,10 +53,15 @@ class Paddle:
         '''
         Logic for moving paddle right
         '''
-        if(self.point.x + self.dimension.width >= FRAMEWIDTH-2):
+        if(self.point.x + self.dimension.width >= FRAMEWIDTH-1):
             return False
+        
+        final_pos = self.point.x + PADDLESTEPX
+        if(self.point.x + self.dimension.width >= FRAMEWIDTH-PADDLESTEPX-1):
+            final_pos = FRAMEWIDTH-1-self.dimension.width
+
         new_point = Point(
-            self.point.x + PADDLESTEPX,
+            final_pos,
             self.point.y
         )
         self.frame.restore_frame(new_point,self.shape,self.dimension,self.point,self.shape,self.dimension)
