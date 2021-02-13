@@ -5,6 +5,7 @@ from time import time
 from input import Get,input_to
 
 class Manager:
+
     def __init__(self, game_status):
         '''
         construct the walls, paddle, ball and frame
@@ -19,19 +20,22 @@ class Manager:
         while True:
             flag = False
             toc = time()
-            if (toc - tic) >= 0.01:
+            if (toc - tic) >= 0.1:
                 flag =True
                 tic = toc
             self.schedular(flag)
-            self.ball.automatic_move()
     
+
+
     def schedular(self,flag):
         '''
         Order of execution at each iteration.
         '''
         if flag==True:
             self.frame.display()
+            self.ball.automatic_move()
         self.user_input()
+
 
 
     def user_input(self):
@@ -51,4 +55,3 @@ class Manager:
             quit()
         elif ch1== ' ':
             self.ball.flip_stick(False)
-        

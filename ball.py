@@ -98,14 +98,14 @@ class Ball:
         Assume a ball of shape like `(a)`,`(#)`
         '''
         if self.direction_x==False:
-            if self.frame.current_frame[self.point.y][self.point.x-1]!=" ":
+            if self.frame.current_frame[self.point.y][self.point.x-self.speedx]!=" ":
                 self.direction_x = True
                 return self.point.x+self.speedx
             else:
                 return self.point.x-self.speedx
         
         else:
-            if self.frame.current_frame[self.point.y][self.point.x+self.dimension.width]!=" ":
+            if self.frame.current_frame[self.point.y][self.point.x+self.dimension.width-1+self.speedx]!=" ":
                 self.direction_x = False
                 return self.point.x-self.speedx
             else:          
@@ -126,7 +126,7 @@ class Ball:
 
         if self.direction_y==False:
             for i in range(self.dimension.width):
-                if self.frame.current_frame[self.point.y+1][i+self.point.x]!=" ":
+                if self.frame.current_frame[self.point.y+self.speedy][i+self.point.x]!=" ":
                     self.direction_y = True
                     return self.point.y-self.speedy
         
@@ -134,7 +134,7 @@ class Ball:
         
         else:
             for i in range(self.dimension.width):
-                if self.frame.current_frame[self.point.y-1][i+self.point.x]!=" ":
+                if self.frame.current_frame[self.point.y-self.speedy][i+self.point.x]!=" ":
                     self.direction_y = False
                     return self.point.y+self.speedy
 
