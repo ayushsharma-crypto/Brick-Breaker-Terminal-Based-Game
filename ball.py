@@ -157,6 +157,36 @@ class Ball:
             new_pos_x=self.point.x
         if not new_pos_y:
             new_pos_y=self.point.y
+        
+        if self.check_burst(new_pos_y):
+            return False
+
         new_point = Point(new_pos_x,new_pos_y)      
         self.re_draw(new_point,self.shape,self.dimension)
+        return True
+
+
+
+
+    def burst(self):
+        '''
+        The is function will delete the ball.
+        '''
+        self.frame.status.add_kill()
+        self.shape = [[" "," "," "]]
+        self.re_draw(self.point,self.shape,self.dimension)
+        self.__init__(self.frame,self.paddle)
+        return True
+
+
+
+    def check_burst(self,new_pos_y):
+        '''
+        The is function will delete the ball if 
+        hits bottom of the frame.
+        Assume a ball of shape like `(@)`,`(#)`
+        '''
+        if new_pos_y < FRAMEHEIGHT-2:
+            return False
+        self.burst()
         return True
