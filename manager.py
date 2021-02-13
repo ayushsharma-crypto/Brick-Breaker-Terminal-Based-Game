@@ -23,6 +23,7 @@ class Manager:
                 flag =True
                 tic = toc
             self.schedular(flag)
+            self.ball.automatic_move()
     
     def schedular(self,flag):
         '''
@@ -39,13 +40,15 @@ class Manager:
         '''
         ch = Get()
         ch1 = input_to(ch)
-        print(ch1)
    
         if ch1 == 'a' or ch1 == 'A':
             self.paddle.move_left()
+            self.ball.move_with_paddle()
         elif ch1 == 'd' or ch1 == 'D':
             self.paddle.move_right()
+            self.ball.move_with_paddle()
         elif ch1 == 'q' or ch1 =='Q':
             quit()
+        elif ch1== ' ':
+            self.ball.flip_stick(False)
         
-        self.ball.move_with_paddle()

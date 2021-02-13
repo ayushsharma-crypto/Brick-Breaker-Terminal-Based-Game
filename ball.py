@@ -12,9 +12,11 @@ class Ball:
         '''
         self.frame = frame
         self.paddle = paddle
+        self.stick = True
         self.speedx = BALLSPEEDX
         self.speedy = BALLSPEEDY
-        self.stick = True
+        self.direction_x = True
+        self.direction_y = True
         self.dimension = Dimension(3,1)
         self.point = Point(
             randint(paddle.point.x,paddle.point.x+paddle.dimension.width-self.dimension.width),
@@ -49,16 +51,25 @@ class Ball:
 
 
 
-    def flip_stick(self):
+    def re_draw(self,new_point,new_shape,new_dimension):
+        '''
+        Render ball on the base Frame Paddle
+        '''
+        self.frame.restore_frame(new_point,new_shape,new_dimension,self.point,self.shape,self.dimension)
+        self.point = new_point
+        self.shape = new_shape
+        self.dimension = new_dimension
+
+
+
+
+    def flip_stick(self,state: bool):
         '''
         The is function will flip the stickyness of ball
         to the paddle. If self.stick is True, ball will be
         attached to the paddle. Otherwise not.
         '''
-        if self.stick:
-            self.stick = False
-        else:
-            self.stick = True
+        self.stick = state
     
 
 
@@ -73,7 +84,79 @@ class Ball:
             self.paddle.point.x + self.paddle_offset,
             self.point.y
         )
+        self.re_draw(new_point,self.shape,self.dimension)
+        return True
 
-        self.frame.restore_frame(new_point,self.shape,self.dimension,self.point,self.shape,self.dimension)
-        self.point = new_point
+
+
+
+    def automatic_move_x(self):
+        '''
+        The is function will automatically move not-stick
+        ball along x-axis i.e. horizontally with speed self.speedx
+        and rebound after colliding with obstacle elastically
+        Assume a ball of shape like `(a)`,`(#)`
+        '''
+        if self.direction_x==False:
+            if self.frame.current_frame[self.point.y][self.point.x-1]!=" ":
+                self.direction_x = True
+                return False
+            else:
+                return self.point.x-self.speedx
+        
+        else:
+            if self.frame.current_frame[self.point.y][self.point.x+self.dimension.width]!=" ":
+                self.direction_x = False
+                return False
+            else:          
+                return self.point.x+self.speedx
+
+
+
+
+    def automatic_move_y(self):
+        '''
+        The is function will automatically move not-stick
+        ball along y-axis i.e. vertically with speed self.speedy
+        and rebound after colliding with obstacle elastically
+        Assume a ball of shape like `(@)`,`(#)`
+        '''
+        if self.stick:
+            return False
+
+        if self.direction_y==False:
+            for i in range(self.dimension.width):
+                if self.frame.current_frame[self.point.y+1][i+self.point.x]!=" ":
+                    self.direction_y = True
+                    return False
+        
+            return self.point.y+self.speedy
+        
+        else:
+            for i in range(self.dimension.width):
+                if self.frame.current_frame[self.point.y-1][i+self.point.x]!=" ":
+                    self.direction_y = False
+                    return False
+
+            return self.point.y-self.speedy
+
+
+
+
+    def automatic_move(self):
+        '''
+        The is function will automatically move not-stick
+        ball & rebound after colliding with obstacle elastically
+        Assume a ball of shape like `(@)`,`(#)`
+        '''
+        if self.stick:
+            return False
+        new_pos_x = self.automatic_move_x()
+        new_pos_y = self.automatic_move_y()
+        if not new_pos_x:
+            new_pos_x=self.point.x
+        if not new_pos_y:
+            new_pos_y=self.point.y
+        new_point = Point(new_pos_x,new_pos_y)      
+        self.re_draw(new_point,self.shape,self.dimension)
         return True
