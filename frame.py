@@ -1,4 +1,5 @@
 import os
+import sys
 from colorama import Fore,Back,Style
 from constants import FRAMEHEIGHT,FRAMEWIDTH
 
@@ -61,6 +62,7 @@ class Frame:
         '''
         Renders the current Frame of the Game
         '''
+        sys.stdout.flush()
         self.display_title()
         for h in range(len(self.current_frame)):
             print("".join(self.current_frame[h]))
