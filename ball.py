@@ -77,6 +77,14 @@ class Ball:
     
 
 
+    def update_paddle_offset(self,new):
+        '''
+        Logic for updating the ball-paddle-offset
+        '''
+        self.paddle_offset = new
+    
+
+
     def move_with_paddle(self):
         '''
         Logic for moving ball with paddle horizontally when stick.
@@ -175,8 +183,7 @@ class Ball:
     def self_move(self):
         '''
         The is function will automatically move not-stick
-        ball & rebound after colliding with obstacle elastically
-        Assume a ball of shape like `(@)`,`(#)`
+        ball after certain time-interval
         '''
         self.toc = time.time()
         if self.toc -self.tic >self.skip_iteration_tp:
