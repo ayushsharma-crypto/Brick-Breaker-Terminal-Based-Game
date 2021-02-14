@@ -1,3 +1,4 @@
+from typing import IO
 from frame import Frame
 from paddle import Paddle
 from ball import Ball
@@ -20,7 +21,7 @@ class Manager:
         while True:
             flag = False
             toc = time()
-            if (toc - tic) >= 0.1:
+            if (toc - tic) >= self.ball.skip_iteration_tp:
                 flag =True
                 tic = toc
             self.schedular(flag)
@@ -33,7 +34,7 @@ class Manager:
         '''
         if flag==True:
             self.frame.display()
-            self.ball.automatic_move()
+        self.ball.self_move()
         self.user_input()
 
 
@@ -43,7 +44,10 @@ class Manager:
         Getting input from the user for paddle movement
         '''
         ch = Get()
-        ch1 = input_to(ch)
+        IO_timeout = self.ball.skip_iteration_tp
+        if IO_timeout!= 0.1:
+            IO_timeout = 0.06
+        ch1 = input_to(ch,IO_timeout)
    
         if ch1 == 'a' or ch1 == 'A':
             self.paddle.move_left()
@@ -53,5 +57,7 @@ class Manager:
             self.ball.move_with_paddle()
         elif ch1 == 'q' or ch1 =='Q':
             quit()
+        elif ch1 == 'i' or ch1 =='I':
+            self.ball.skip_iteration_tp -= 0.04
         elif ch1== ' ':
             self.ball.flip_stick(False)

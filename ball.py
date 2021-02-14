@@ -1,6 +1,7 @@
 from random import randint
 from constants import *
 from colorama import Fore,Style
+import time
 
 
 
@@ -13,14 +14,17 @@ class Ball:
         self.frame = frame
         self.paddle = paddle
         self.stick = True
-        self.speedx = BALLSPEEDX
-        self.speedy = BALLSPEEDY
+        self.speedx = BALLSTEPX
+        self.speedy = BALLSTEPY
+        self.skip_iteration_tp = BALLSTEPTP
+        self.tic = time.time()
+        self.toc = time.time()
         self.direction_x = True
         self.direction_y = True
         self.dimension = Dimension(3,1)
         self.point = Point(
-            randint(paddle.point.x,paddle.point.x+paddle.dimension.width-self.dimension.width),
-            paddle.point.y-self.dimension.height
+            randint(self.paddle.point.x,self.paddle.point.x+self.paddle.dimension.width-self.dimension.width),
+            self.paddle.point.y-self.dimension.height
         )
         self.shape = self.initial_shape()
         self.paddle_offset = self.point.x - self.paddle.point.x
@@ -165,6 +169,21 @@ class Ball:
         self.re_draw(new_point,self.shape,self.dimension)
         return True
 
+
+
+
+    def self_move(self):
+        '''
+        The is function will automatically move not-stick
+        ball & rebound after colliding with obstacle elastically
+        Assume a ball of shape like `(@)`,`(#)`
+        '''
+        self.toc = time.time()
+        if self.toc -self.tic >self.skip_iteration_tp:
+            self.tic =self.toc
+            self.automatic_move()
+        else:
+            pass
 
 
 

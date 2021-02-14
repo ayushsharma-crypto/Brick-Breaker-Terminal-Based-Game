@@ -23,7 +23,7 @@ class Paddle:
         shape =  [ [ "" for i in range(width) ] for j in range(height) ]
         for h in range(height):
             for w in range(width):
-                shape[h][w] = f"{Back.BLUE}{Style.BRIGHT}{w%10}{Style.RESET_ALL}"
+                shape[h][w] = f"{Back.BLUE}{Style.BRIGHT} {Style.RESET_ALL}"
         return shape
     
 
