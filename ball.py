@@ -109,7 +109,6 @@ class Ball:
         and rebound after colliding with obstacle elastically
         Assume a ball of shape like `(a)`,`(#)`
         '''
-        return False
         if self.frame.current_frame[self.point.y][self.point.x-1]!=" " and self.frame.current_frame[self.point.y][self.point.x+self.dimension.width-1+1]!=" ":
             return self.point.x
 
@@ -143,22 +142,43 @@ class Ball:
         and rebound after colliding with obstacle elastically
         Assume a ball of shape like `(@)`,`(#)`
         '''
-        step_down = 0
+        for i in range(self.dimension.width):
+            if self.frame.current_frame[self.point.y+1][i+self.point.x]!=" " and self.frame.current_frame[self.point.y-1][i+self.point.x]!=" ":
+                return self.point.y
+
         if self.direction_y==False:
+            step_down = FRAMEHEIGHT*2
             for i in range(self.dimension.width):
                 if self.frame.current_frame[self.point.y+1][i+self.point.x]!=" ":
                     self.direction_y = True
-                    return self.point.y-self.speedy
+                    return self.automatic_move_y()
+                else:
+                    curr_step_down = self.speedy
+                    for j in range(1,self.speedy+1):
+                        if self.frame.current_frame[self.point.y+j][self.point.x+i]!=" ":
+                            curr_step_down=j-1
+                            break
+                    if curr_step_down < step_down:   
+                        step_down = curr_step_down             
         
-            return self.point.y+self.speedy
+            return self.point.y+step_down
         
         else:
+            step_up = FRAMEHEIGHT*2
             for i in range(self.dimension.width):
-                if self.frame.current_frame[self.point.y-self.speedy][i+self.point.x]!=" ":
+                if self.frame.current_frame[self.point.y-1][i+self.point.x]!=" ":
                     self.direction_y = False
-                    return self.point.y+self.speedy
+                    return self.automatic_move_y()
+                else:
+                    curr_step_up = self.speedy
+                    for j in range(1,self.speedy+1):
+                        if (self.point.y-j < 1) or (self.frame.current_frame[self.point.y-j][i+self.point.x]!=" "):
+                            curr_step_up = j-1
+                            break
+                    if curr_step_up < step_up:
+                        step_up = curr_step_up
 
-            return self.point.y-self.speedy
+            return self.point.y-step_up
 
 
 
@@ -177,7 +197,7 @@ class Ball:
             new_pos_x=self.point.x
         if not new_pos_y:
             new_pos_y=self.point.y
-        
+
         if self.check_burst(new_pos_y):
             return False
 
