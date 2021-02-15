@@ -244,3 +244,39 @@ class Ball:
             return False
         self.burst()
         return True
+
+
+    
+    def shrink_paddle_effect(self):
+        '''
+        This function will handle the case when shrink paddle powerup is used.
+        '''
+        self.paddle.shrink_shape()
+        if self.stick:
+            self.shape = [[" "," "," "]]
+            self.re_draw(self.point,self.shape,self.dimension)
+            self.__init__(self.frame,self.paddle)
+
+
+    
+    def expand_paddle_effect(self):
+        '''
+        This function will handle the case when shrink paddle powerup is used.
+        '''
+        self.paddle.expand_shape()
+        if self.stick:
+            self.shape = [[" "," "," "]]
+            self.re_draw(self.point,self.shape,self.dimension)
+            self.__init__(self.frame,self.paddle)
+
+
+    
+    def default_paddle_effect(self):
+        '''
+        This function will handle the case when shrink paddle powerup is used.
+        '''
+        self.paddle.default_shape()
+        if self.stick:
+            self.shape = [[" "," "," "]]
+            self.re_draw(self.point,self.shape,self.dimension)
+            self.__init__(self.frame,self.paddle)

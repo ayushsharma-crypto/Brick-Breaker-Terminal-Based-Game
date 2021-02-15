@@ -54,8 +54,10 @@ class Manager:
             self.ball.move_with_paddle()
         elif ch1 == 'q' or ch1 =='Q':
             quit()
-        elif ch1 == 'i' or ch1 =='I':
-            self.ball.speedx += 1
-            self.ball.speedy += 1
+        # elif ch1 == 'i' or ch1 =='I':
+        #     self.ball.speedx += 1
+        #     self.ball.speedy += 1
+        elif ch1 == 'c' or ch1=='C':
+            self.ball.expand_paddle_effect()
         elif ch1== ' ':
             self.ball.flip_stick(False)

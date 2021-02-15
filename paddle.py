@@ -1,6 +1,6 @@
 from random import randint
 from colorama import Back,Style
-from constants import PADDLESTEPX,FRAMEHEIGHT,FRAMEWIDTH,PADDLEHEIGHT,PADDLEWIDTH,Point,Dimension
+from constants import EXPANDPADDLE, PADDLESTEPX,FRAMEHEIGHT,FRAMEWIDTH,PADDLEHEIGHT,PADDLEWIDTH,Point,Dimension, SHRINKPADDLE
 
 
 
@@ -28,11 +28,52 @@ class Paddle:
     
 
 
+    def shrink_shape(self):
+        shape =  [ [ "" for i in range(SHRINKPADDLE) ] for j in range(PADDLEHEIGHT) ]
+        for h in range(PADDLEHEIGHT):
+            for w in range(SHRINKPADDLE):
+                shape[h][w] = f"{Back.RED}{Style.BRIGHT} {Style.RESET_ALL}"
+        
+        self.re_draw(self.point,shape,Dimension(SHRINKPADDLE,PADDLEHEIGHT))
+    
+
+
+    def expand_shape(self):
+        shape =  [ [ "" for i in range(EXPANDPADDLE) ] for j in range(PADDLEHEIGHT) ]
+        for h in range(PADDLEHEIGHT):
+            for w in range(EXPANDPADDLE):
+                shape[h][w] = f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}"
+        
+        self.re_draw(self.point,shape,Dimension(EXPANDPADDLE,PADDLEHEIGHT))
+    
+
+
+    def default_shape(self):
+        shape =  [ [ "" for i in range(PADDLEWIDTH) ] for j in range(PADDLEHEIGHT) ]
+        for h in range(PADDLEHEIGHT):
+            for w in range(PADDLEWIDTH):
+                shape[h][w] = f"{Back.GREEN}{Style.BRIGHT} {Style.RESET_ALL}"
+        
+        self.re_draw(self.point,shape,Dimension(PADDLEWIDTH,PADDLEHEIGHT))
+    
+
+
     def draw(self):
         '''
         Render paddle on the base Frame
         '''
         self.frame.update_frame(self.point, self.shape, self.dimension)
+
+
+
+    def re_draw(self,new_point,new_shape,new_dimension):
+        '''
+        Render paddle again on the base Frame Paddle
+        '''
+        self.frame.restore_frame(new_point,new_shape,new_dimension,self.point,self.shape,self.dimension)
+        self.point = new_point
+        self.shape = new_shape
+        self.dimension = new_dimension
     
 
 
