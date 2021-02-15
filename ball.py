@@ -21,7 +21,7 @@ class Ball:
         self.toc = time.time()
         self.direction_x = True
         self.direction_y = True
-        self.dimension = Dimension(3,1)
+        self.dimension = Dimension(1,1)
         self.point = Point(
             randint(self.paddle.point.x,self.paddle.point.x+self.paddle.dimension.width-self.dimension.width),
             self.paddle.point.y-self.dimension.height
@@ -38,9 +38,9 @@ class Ball:
         '''
         shape = [
             [
-                f"{Fore.GREEN}{Style.BRIGHT}({Style.RESET_ALL}",
+                # f"{Fore.GREEN}{Style.BRIGHT}({Style.RESET_ALL}",
                 f"{Fore.GREEN}{Style.BRIGHT}@{Style.RESET_ALL}",
-                f"{Style.BRIGHT}{Fore.GREEN}){Style.RESET_ALL}"
+                # f"{Style.BRIGHT}{Fore.GREEN}){Style.RESET_ALL}"
             ],
         ]
         return shape    
@@ -115,6 +115,7 @@ class Ball:
         if self.direction_x==False:
             if self.frame.current_frame[self.point.y][self.point.x-1]!=" ":
                 self.direction_x = True
+                self.catch_obstacle(self.point.x-1,self.point.y)
                 return self.automatic_move_x()
             else:
                 for i in range(1,self.speedx+1):
@@ -125,6 +126,7 @@ class Ball:
         else:
             if self.frame.current_frame[self.point.y][self.point.x+self.dimension.width-1+1]!=" ":
                 self.direction_x = False
+                self.catch_obstacle(self.point.x+self.dimension.width-1+1,self.point.y)
                 return self.automatic_move_x()
             else: 
                 for i in range(1,self.speedx+1):
@@ -151,6 +153,7 @@ class Ball:
             for i in range(self.dimension.width):
                 if self.frame.current_frame[self.point.y+1][i+self.point.x]!=" ":
                     self.direction_y = True
+                    self.catch_obstacle(i+self.point.x,self.point.y+1)
                     return self.automatic_move_y()
                 else:
                     curr_step_down = self.speedy
@@ -168,6 +171,7 @@ class Ball:
             for i in range(self.dimension.width):
                 if self.frame.current_frame[self.point.y-1][i+self.point.x]!=" ":
                     self.direction_y = False
+                    self.catch_obstacle(i+self.point.x,self.point.y-1)
                     return self.automatic_move_y()
                 else:
                     curr_step_up = self.speedy
@@ -207,7 +211,6 @@ class Ball:
 
 
 
-
     def self_move(self):
         '''
         The is function will automatically move not-stick
@@ -219,6 +222,41 @@ class Ball:
             self.automatic_move()
         else:
             pass
+
+
+
+    def catch_obstacle(self,cox,coy):
+        '''
+        The is function will print the current object
+        on frame at the co-ordinate cox,coy
+        '''
+        # print("[",self.frame.current_frame[coy][cox],"]","cox = ",cox,"coy = ",coy)
+        # time.sleep(2)
+        if self.frame.current_frame[coy][cox] == self.paddle.shape[0][0]:
+            self.update_paddle_offset(cox-self.paddle.point.x)
+            paddle_len_unit = self.paddle.dimension.width/5
+            if(self.paddle_offset<paddle_len_unit):
+                '''
+                Hit leftmost
+                '''
+                # if self.direction_x:
+                     
+            elif(self.paddle_offset<(paddle_len_unit)*2):
+                '''
+                Hit mid of left-end & center
+                '''
+            elif(self.paddle_offset<(paddle_len_unit)*3):
+                '''
+                Hit center
+                '''
+            elif(self.paddle_offset<(paddle_len_unit)*4):
+                '''
+                Hit mid of right-end & center
+                '''
+            elif(self.paddle_offset<(paddle_len_unit)*5):
+                '''
+                Hit rightmost
+                '''
 
 
 
