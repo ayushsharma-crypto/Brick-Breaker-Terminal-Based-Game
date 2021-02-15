@@ -44,10 +44,7 @@ class Manager:
         Getting input from the user for paddle movement
         '''
         ch = Get()
-        IO_timeout = self.ball.skip_iteration_tp
-        if IO_timeout!= 0.1:
-            IO_timeout = 0.06
-        ch1 = input_to(ch,IO_timeout)
+        ch1 = input_to(ch,self.ball.skip_iteration_tp)
    
         if ch1 == 'a' or ch1 == 'A':
             self.paddle.move_left()
@@ -57,7 +54,7 @@ class Manager:
             self.ball.move_with_paddle()
         elif ch1 == 'q' or ch1 =='Q':
             quit()
-        elif ch1 == 'i' or ch1 =='I':
-            self.ball.skip_iteration_tp -= 0.04
+        # elif ch1 == 'i' or ch1 =='I':
+        #     self.ball.skip_iteration_tp -= 0.04
         elif ch1== ' ':
             self.ball.flip_stick(False)
