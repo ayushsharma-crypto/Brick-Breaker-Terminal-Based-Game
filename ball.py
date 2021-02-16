@@ -28,6 +28,7 @@ class Ball:
         )
         self.shape = self.initial_shape()
         self.paddle_offset = self.point.x - self.paddle.point.x
+        # self.ball_type = "DEFAULT"
         self.draw()
 
 
@@ -197,6 +198,7 @@ class Ball:
             return False
         new_pos_x = self.automatic_move_x()
         new_pos_y = self.automatic_move_y()
+        
         if not new_pos_x:
             new_pos_x=self.point.x
         if not new_pos_y:
@@ -222,6 +224,76 @@ class Ball:
             self.automatic_move()
         else:
             pass
+    
+
+
+    def handle_paddle_collision(self,cox):
+        '''
+        The is function will make ball-paddle-collision effect
+        '''
+        self.update_paddle_offset(cox-self.paddle.point.x)
+        paddle_len_unit = self.paddle.dimension.width/5
+        if(self.paddle_offset<paddle_len_unit):
+            '''
+            Hit leftmost
+            '''
+            if self.speedx == 0:
+                self.direction_x=False
+                self.speedx = 2        
+            elif self.direction_x:
+                if self.speedx==3:
+                    self.speedx=1
+                elif self.speedx<=2:
+                    self.speedx=0
+            else:
+                self.speedx = 3
+        elif(self.paddle_offset<(paddle_len_unit)*2):
+            '''
+            Hit mid of left-end & center
+            '''
+            if self.speedx == 0:
+                self.direction_x=False
+                self.speedx = 1
+            elif self.direction_x:
+                if self.speedx == 3:
+                    self.speedx = 2
+                elif self.speedx<=2:
+                    self.speedx = 1
+            else:
+                self.speedx = 2
+        elif(self.paddle_offset<(paddle_len_unit)*3):
+            '''
+            Hit center - No effect in horizontal velocity
+            '''
+            
+        elif(self.paddle_offset<(paddle_len_unit)*4):
+            '''
+            Hit mid of right-end & center
+            '''
+            if self.speedx == 0:
+                self.direction_x=True
+                self.speedx = 1
+            elif self.direction_x:
+                self.speedx = 2
+            else:
+                if self.speedx == 3:
+                    self.speedx = 2
+                elif self.speedx<=2:
+                    self.speedx = 1
+        else:
+            '''
+            Hit rightmost
+            '''
+            if self.speedx==0:
+                self.direction_x = True
+                self.speedx = 2
+            elif self.direction_x:
+                self.speedx = 3
+            else:
+                if self.speedx==3:
+                    self.speedx==0
+                elif self.speedx<=2:
+                    self.speedx=0
 
 
 
@@ -230,33 +302,17 @@ class Ball:
         The is function will print the current object
         on frame at the co-ordinate cox,coy
         '''
-        # print("[",self.frame.current_frame[coy][cox],"]","cox = ",cox,"coy = ",coy)
-        # time.sleep(2)
+        # print("[",self.frame.current_frame[coy][cox],"]","cox =
         if self.frame.current_frame[coy][cox] == self.paddle.shape[0][0]:
-            self.update_paddle_offset(cox-self.paddle.point.x)
-            paddle_len_unit = self.paddle.dimension.width/5
-            if(self.paddle_offset<paddle_len_unit):
-                '''
-                Hit leftmost
-                '''
-                # if self.direction_x:
-                     
-            elif(self.paddle_offset<(paddle_len_unit)*2):
-                '''
-                Hit mid of left-end & center
-                '''
-            elif(self.paddle_offset<(paddle_len_unit)*3):
-                '''
-                Hit center
-                '''
-            elif(self.paddle_offset<(paddle_len_unit)*4):
-                '''
-                Hit mid of right-end & center
-                '''
-            elif(self.paddle_offset<(paddle_len_unit)*5):
-                '''
-                Hit rightmost
-                '''
+            # print(self.speedx)
+            # self.flip_stick(True)
+            # print(self.speedx)
+            self.handle_paddle_collision(cox)
+            # print(self.speedx)
+            # time.sleep(1)
+            # self.flip_stick(False)
+            # print(self.speedx)
+            # time.sleep(2)
 
 
 

@@ -59,5 +59,9 @@ class Manager:
         #     self.ball.speedy += 1
         elif ch1 == 'c' or ch1=='C':
             self.ball.expand_paddle_effect()
+        elif ch1 == 'v' or ch1=='V':
+            self.ball.shrink_paddle_effect()
+        elif ch1 == 'b' or ch1=='B':
+            self.ball.default_paddle_effect()
         elif ch1== ' ':
             self.ball.flip_stick(False)
