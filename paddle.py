@@ -1,3 +1,4 @@
+from frame import Frame
 from random import randint
 from colorama import Back,Style
 from constants import EXPANDPADDLE, PADDLESTEPX,FRAMEHEIGHT,FRAMEWIDTH,PADDLEHEIGHT,PADDLEWIDTH,Point,Dimension, SHRINKPADDLE
@@ -6,7 +7,7 @@ from constants import EXPANDPADDLE, PADDLESTEPX,FRAMEHEIGHT,FRAMEWIDTH,PADDLEHEI
 
 class Paddle:
 
-    def __init__(self,frame):
+    def __init__(self,frame: Frame):
         self.paddlestepx = PADDLESTEPX
         self.frame = frame
         self.shape = self.initial_shape(PADDLEWIDTH,PADDLEHEIGHT)

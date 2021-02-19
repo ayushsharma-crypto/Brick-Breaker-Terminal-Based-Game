@@ -1,3 +1,4 @@
+from status import Status
 from typing import IO
 from frame import Frame
 from paddle import Paddle
@@ -7,7 +8,7 @@ from input import Get,input_to
 
 class Manager:
 
-    def __init__(self, game_status):
+    def __init__(self, game_status: Status):
         '''
         construct the walls, paddle, ball and frame
         '''

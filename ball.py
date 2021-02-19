@@ -1,3 +1,5 @@
+from paddle import Paddle
+from frame import Frame
 from random import randint
 from constants import *
 from colorama import Fore,Style
@@ -7,7 +9,7 @@ import time
 
 class Ball:
 
-    def __init__(self,frame,paddle):
+    def __init__(self,frame: Frame,paddle: Paddle):
         '''
         constructor of the ball
         '''
