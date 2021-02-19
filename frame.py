@@ -1,7 +1,7 @@
 import os
 import sys
 from colorama import Fore,Back,Style
-from constants import FRAMEHEIGHT,FRAMEWIDTH
+from constants import Dimension, FRAMEHEIGHT,FRAMEWIDTH, Point
 
 class Frame:
     def __init__(self, status):
@@ -59,7 +59,7 @@ class Frame:
 
 
     
-    def update_frame(self,point,shape,dimension):
+    def update_frame(self,point: Point,shape,dimension: Dimension):
         '''
         It update the current Frame of the Game.
         Basically for add another object on top of it base frame.
@@ -67,6 +67,18 @@ class Frame:
         for h in range(dimension.height):
             for w in range(dimension.width):
                 self.current_frame[point.y + h][point.x + w] = shape[h][w]
+
+    
+
+    def clear_frame_area(self,point: Point,dimension: Dimension):
+        '''
+        This function will clear the area on the frame i.e.
+        replace the current ascii character with space for
+        given point & dimension.
+        '''
+        for h in range(dimension.height):
+            for w in range(dimension.width):
+                self.current_frame[point.y+h][point.x+w]=" "
     
 
 
@@ -75,14 +87,5 @@ class Frame:
         It restore the Frame of the Game.
         Basically for moving another object on top of it base frame.
         '''
-        for h in range(old_dimension.height):
-            for w in range(old_dimension.width):
-                self.current_frame[old_point.y + h][old_point.x + w] = " "
-                # print(
-                #     f"\033[{old_point.x + w};{old_point.y + h+1}H"+"h",end =""
-                #     )
-        for h in range(dimension.height):
-            for w in range(dimension.width):
-                self.current_frame[point.y + h][point.x + w] = shape[h][w]
-
-    
+        self.clear_frame_area(old_point,old_dimension)
+        self.update_frame(point,shape,dimension)

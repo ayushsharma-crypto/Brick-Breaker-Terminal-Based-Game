@@ -1,4 +1,4 @@
-from brick_layout import BrickLayout
+from brick_layout import BrickLayout, LayoutStage1, select_layout
 from frame import Frame
 from paddle import Paddle
 from ball import Ball
@@ -15,7 +15,9 @@ class Manager:
         self.frame = Frame(self.game_status)
         self.paddle = Paddle(self.frame)
         self.ball = Ball(self.frame,self.paddle)
-        self.brick_layout = BrickLayout(self.frame)
+        # self.brick_layout = BrickLayout(self.frame)
+        # self.brick_layout_matrix = self.brick_layout.get_brick_matrix()
+        self.brick_layout = select_layout(self.game_status.get_stage(),self.frame)
         self.brick_layout_matrix = self.brick_layout.get_brick_matrix()
         self.frame.display()
 

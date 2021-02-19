@@ -1,4 +1,5 @@
 from random import randint
+import time
 from brick import OneUnitBrick, TwoUnitBrick, ThreeUnitBrick, UnbreakableBrick, ExplodingBrick
 from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, LAYOUTHEIGHT, LAYOUTWIDTH, LAYOUTXOFFSET, LAYOUTYOFFSET, Point
 from frame import Frame
@@ -9,11 +10,12 @@ class LocationType:
     '''
     class for storing brick place point and it's type
     brick_type => brick
-    1 => OneUnitBrick
-    2 => TwoUnitBrick
-    3 => ThreeUnitBrick
-    4 => UnbreakableBrick
-    5 => ExplodingBrick
+        1 => OneUnitBrick
+        2 => TwoUnitBrick
+        3 => ThreeUnitBrick
+        4 => UnbreakableBrick
+        5 => ExplodingBrick
+        -1 => No brick
     '''
     def __init__(self,place_point: Point,brick_type: int=1):
         self.place_point = place_point
@@ -51,10 +53,19 @@ class BrickLayout:
             y_coordinate = self.point.y+(row*(row_height))
             x_coordinate = self.point.x
             while x_coordinate <= (self.point.x+self.dimension.width-cell_width):
-                brick_type = randint(1,5)
-                location_n_type_matrix[row].append(LocationType(Point(x_coordinate,y_coordinate),brick_type))
+                location_n_type_matrix[row].append(LocationType(Point(x_coordinate,y_coordinate),1))
                 x_coordinate += cell_width
         return location_n_type_matrix
+    
+
+
+    def give_shape(self):
+        '''
+        This function will give shape to layout. And
+        store it in location_n_type_matrix matrix.
+        This function will get override in child class.
+        '''
+        pass
 
 
         
@@ -88,3 +99,155 @@ class BrickLayout:
         returns the brick matrix of the stage
         '''
         return self.brick_matrix
+
+
+
+class LayoutStage2(BrickLayout):
+    '''
+    BrickLayout for stage2
+    '''
+    def __init__(self,frame: Frame):
+        '''
+        constructor for this class
+        '''
+        self.frame = frame
+        super().__init__(self.frame)
+        self.give_shape()
+        self.brick_matrix = self.make_brick_matrix(self.frame)
+    
+
+
+    def give_shape(self):
+        '''
+        This function is from the parrent class.
+        Now overriding it to give 
+        '''
+        for r in range(len(self.location_n_type_matrix)):
+            for c in range(len(self.location_n_type_matrix[r])):
+                if r==len(self.location_n_type_matrix)-1:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(2,4))
+                elif r==len(self.location_n_type_matrix)-4:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,2))
+                else:
+                    self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,3))
+                    if (r+c)%2:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
+                        self.brick_matrix[r][c].break_brick()
+
+
+
+class LayoutStage1(BrickLayout):
+    '''
+    BrickLayout for stage
+    '''
+    def __init__(self,frame: Frame):
+        '''
+        constructor for this class
+        '''
+        self.frame = frame
+        super().__init__(self.frame)
+        self.give_shape()
+        self.brick_matrix = self.make_brick_matrix(self.frame)
+
+
+
+    def give_shape(self):
+        '''
+        This function is from the parrent class.
+        Now overriding it to give 
+        '''
+        for r in range(len(self.location_n_type_matrix)):
+            for c in range(len(self.location_n_type_matrix[r])):
+                if r==len(self.location_n_type_matrix)-1:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,2))
+                elif r==0:
+                    RN = randint(1,100)%2
+                    if RN==0:
+                        RN=3
+                    self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,RN)
+                else:
+                    self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(2,4))
+                    if (r+c)%2:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
+                        self.brick_matrix[r][c].break_brick()
+
+
+
+class LayoutStage2(BrickLayout):
+    '''
+    BrickLayout for stage2
+    '''
+    def __init__(self,frame: Frame):
+        '''
+        constructor for this class
+        '''
+        self.frame = frame
+        super().__init__(self.frame)
+        self.give_shape()
+        self.brick_matrix = self.make_brick_matrix(self.frame)
+    
+
+
+    def give_shape(self):
+        '''
+        This function is from the parrent class.
+        Now overriding it to give 
+        '''
+        for r in range(len(self.location_n_type_matrix)):
+            for c in range(len(self.location_n_type_matrix[r])):
+                if r==len(self.location_n_type_matrix)-1:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(2,4))
+                elif r==2:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,2))
+                else:
+                    self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,3))
+                    if (r+c)%2:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
+                        self.brick_matrix[r][c].break_brick()
+
+
+
+class LayoutStage3(BrickLayout):
+    '''
+    BrickLayout for stage3
+    '''
+    def __init__(self,frame: Frame):
+        '''
+        constructor for this class
+        '''
+        self.frame = frame
+        super().__init__(self.frame)
+        self.give_shape()
+        self.brick_matrix = self.make_brick_matrix(self.frame)
+    
+
+
+    def give_shape(self):
+        '''
+        This function is from the parrent class.
+        Now overriding it to give 
+        '''
+        special_row = randint(1,len(self.location_n_type_matrix)-1)
+        for r in range(len(self.location_n_type_matrix)):
+            for c in range(len(self.location_n_type_matrix[r])):
+                if r==special_row:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,5)
+                elif r==len(self.location_n_type_matrix)-1:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(2,4))
+                else:
+                    self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,4))
+                    if (r+c)%2:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
+                        self.brick_matrix[r][c].break_brick()
+
+
+def select_layout(stage: int,frame: Frame):
+    '''
+    returns the layout instance corresponding to the stage
+    '''
+    if stage==1:
+        return LayoutStage1(frame)
+    elif stage==2:
+        return LayoutStage2(frame)
+    else:
+        return LayoutStage3(frame)

@@ -23,14 +23,14 @@ class SingleBrick:
         '''
         initialise shape of the single brick
         '''
-        return [
-            [f"{Back.WHITE}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.WHITE}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.WHITE}{Style.BRIGHT} {Style.RESET_ALL}"],
-            [f"{Back.WHITE}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.WHITE}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.WHITE}{Style.BRIGHT} {Style.RESET_ALL}"]
-        ]
-    
-    def make_brick():
-        '''
-        '''
+        brick_row = []
+        for i in range(BRICKWIDTH):
+            brick_row.append(f"{Back.WHITE}{Style.DIM} {Style.RESET_ALL}")
+        final_shape = []
+        for i in range(BRICKHEIGHT):
+            final_shape.append(brick_row)
+        return final_shape
+
 
 
 
@@ -42,14 +42,11 @@ class SingleBrick:
 
 
 
-    def re_draw(self,new_point,new_shape,new_dimension):
+    def break_brick(self):
         '''
-        Re-render ball on the base Frame Paddle
+        This will make bricks break basically clear the frame.
         '''
-        self.frame.restore_frame(new_point,new_shape,new_dimension,self.point,self.shape,self.dimension)
-        self.point = new_point
-        self.shape = new_shape
-        self.dimension = new_dimension
+        self.frame.clear_frame_area(self.point,self.dimension)
 
 
 
@@ -84,10 +81,13 @@ class TwoUnitBrick(OneUnitBrick):
         '''
         initialise shape of the single brick with strength two unit
         '''
-        return [
-            [f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}"],
-            [f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}"]
-        ]
+        brick_row = []
+        for i in range(BRICKWIDTH):
+            brick_row.append(f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}")
+        final_shape = []
+        for i in range(BRICKHEIGHT):
+            final_shape.append(brick_row)
+        return final_shape
 
 
 
@@ -109,10 +109,13 @@ class ThreeUnitBrick(TwoUnitBrick):
         '''
         initialise shape of the single brick
         '''
-        return [
-            [f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}"],
-            [f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}"]
-        ]
+        brick_row = []
+        for i in range(BRICKWIDTH):
+            brick_row.append(f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}")
+        final_shape = []
+        for i in range(BRICKHEIGHT):
+            final_shape.append(brick_row)
+        return final_shape
 
 
 
@@ -135,10 +138,13 @@ class UnbreakableBrick(SingleBrick):
         '''
         initialise shape of the single brick
         '''
-        return [
-            [f"{Back.BLACK}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.BLACK}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.BLACK}{Style.BRIGHT} {Style.RESET_ALL}"],
-            [f"{Back.BLACK}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.BLACK}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.BLACK}{Style.BRIGHT} {Style.RESET_ALL}"]
-        ]
+        brick_row = []
+        for i in range(BRICKWIDTH):
+            brick_row.append(f"{Back.BLACK}{Style.DIM} {Style.RESET_ALL}")
+        final_shape = []
+        for i in range(BRICKHEIGHT):
+            final_shape.append(brick_row)
+        return final_shape
 
 
 
@@ -162,7 +168,10 @@ class ExplodingBrick(SingleBrick):
         '''
         initialise shape of the single brick
         '''
-        return [
-            [f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}"],
-            [f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}"]
-        ]
+        brick_row = []
+        for i in range(BRICKWIDTH):
+            brick_row.append(f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}")
+        final_shape = []
+        for i in range(BRICKHEIGHT):
+            final_shape.append(brick_row)
+        return final_shape
