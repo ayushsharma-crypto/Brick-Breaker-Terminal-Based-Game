@@ -24,9 +24,13 @@ class SingleBrick:
         initialise shape of the single brick
         '''
         return [
-            [f"{Back.WHITE}{Style.BRIGHT}   {Style.RESET_ALL}"],
-            [f"{Back.WHITE}{Style.BRIGHT}   {Style.RESET_ALL}"]
+            [f"{Back.WHITE}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.WHITE}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.WHITE}{Style.BRIGHT} {Style.RESET_ALL}"],
+            [f"{Back.WHITE}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.WHITE}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.WHITE}{Style.BRIGHT} {Style.RESET_ALL}"]
         ]
+    
+    def make_brick():
+        '''
+        '''
 
 
 
@@ -81,8 +85,8 @@ class TwoUnitBrick(OneUnitBrick):
         initialise shape of the single brick with strength two unit
         '''
         return [
-            [f"{Back.MAGENTA}{Style.BRIGHT}   {Style.RESET_ALL}"],
-            [f"{Back.MAGENTA}{Style.BRIGHT}   {Style.RESET_ALL}"]
+            [f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}"],
+            [f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}"]
         ]
 
 
@@ -106,8 +110,8 @@ class ThreeUnitBrick(TwoUnitBrick):
         initialise shape of the single brick
         '''
         return [
-            [f"{Back.CYAN}{Style.BRIGHT}   {Style.RESET_ALL}"],
-            [f"{Back.CYAN}{Style.BRIGHT}   {Style.RESET_ALL}"]
+            [f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}"],
+            [f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}"]
         ]
 
 
@@ -132,8 +136,8 @@ class UnbreakableBrick(SingleBrick):
         initialise shape of the single brick
         '''
         return [
-            [f"{Back.BLACK}{Style.BRIGHT}   {Style.RESET_ALL}"],
-            [f"{Back.BLACK}{Style.BRIGHT}   {Style.RESET_ALL}"]
+            [f"{Back.BLACK}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.BLACK}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.BLACK}{Style.BRIGHT} {Style.RESET_ALL}"],
+            [f"{Back.BLACK}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.BLACK}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.BLACK}{Style.BRIGHT} {Style.RESET_ALL}"]
         ]
 
 
@@ -159,6 +163,6 @@ class ExplodingBrick(SingleBrick):
         initialise shape of the single brick
         '''
         return [
-            [f"{Back.YELLOW}{Style.BRIGHT}   {Style.RESET_ALL}"],
-            [f"{Back.YELLOW}{Style.BRIGHT}   {Style.RESET_ALL}"]
+            [f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}"],
+            [f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}",f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}"]
         ]

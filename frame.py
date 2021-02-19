@@ -1,11 +1,10 @@
 import os
-from status import Status
 import sys
 from colorama import Fore,Back,Style
 from constants import FRAMEHEIGHT,FRAMEWIDTH
 
 class Frame:
-    def __init__(self, status: Status):
+    def __init__(self, status):
         self.status = status
         self.current_frame = self.initial_current_frame(FRAMEWIDTH,FRAMEHEIGHT)        
 

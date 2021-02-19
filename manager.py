@@ -1,5 +1,4 @@
-from status import Status
-from typing import IO
+from brick_layout import BrickLayout
 from frame import Frame
 from paddle import Paddle
 from ball import Ball
@@ -8,7 +7,7 @@ from input import Get,input_to
 
 class Manager:
 
-    def __init__(self, game_status: Status):
+    def __init__(self, game_status):
         '''
         construct the walls, paddle, ball and frame
         '''
@@ -16,6 +15,8 @@ class Manager:
         self.frame = Frame(self.game_status)
         self.paddle = Paddle(self.frame)
         self.ball = Ball(self.frame,self.paddle)
+        self.brick_layout = BrickLayout(self.frame)
+        self.brick_layout_matrix = self.brick_layout.get_brick_matrix()
         self.frame.display()
 
         tic = time()        

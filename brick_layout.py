@@ -1,6 +1,24 @@
-from brick import OneUnitBrick
+from random import randint
+from brick import OneUnitBrick, TwoUnitBrick, ThreeUnitBrick, UnbreakableBrick, ExplodingBrick
 from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, LAYOUTHEIGHT, LAYOUTWIDTH, LAYOUTXOFFSET, LAYOUTYOFFSET, Point
 from frame import Frame
+
+
+
+class LocationType:
+    '''
+    class for storing brick place point and it's type
+    brick_type => brick
+    1 => OneUnitBrick
+    2 => TwoUnitBrick
+    3 => ThreeUnitBrick
+    4 => UnbreakableBrick
+    5 => ExplodingBrick
+    '''
+    def __init__(self,place_point: Point,brick_type: int=1):
+        self.place_point = place_point
+        self.brick_type = brick_type
+
 
 
 class BrickLayout:
@@ -33,7 +51,8 @@ class BrickLayout:
             y_coordinate = self.point.y+(row*(row_height))
             x_coordinate = self.point.x
             while x_coordinate <= (self.point.x+self.dimension.width-cell_width):
-                location_n_type_matrix[row].append(Point(x_coordinate,y_coordinate))
+                brick_type = randint(1,5)
+                location_n_type_matrix[row].append(LocationType(Point(x_coordinate,y_coordinate),brick_type))
                 x_coordinate += cell_width
         return location_n_type_matrix
 
@@ -46,9 +65,20 @@ class BrickLayout:
         stored in the location_n_type_matrix matrix.
         '''
         brick_matrix = [ [] for j in range(len(self.location_n_type_matrix)) ]
-        for row in range(len(self.brick_matrix)):
+        for row in range(len(brick_matrix)):
             for cell in range(len(self.location_n_type_matrix[row])):
-                brick_matrix[row][cell] = OneUnitBrick(self.location_n_type_matrix[row][cell],frame)
+                brick_point = self.location_n_type_matrix[row][cell].place_point
+                brick_type = self.location_n_type_matrix[row][cell].brick_type
+                if brick_type==1:
+                    brick_matrix[row].append(OneUnitBrick(brick_point,frame))
+                elif brick_type==2:
+                    brick_matrix[row].append(TwoUnitBrick(brick_point,frame))
+                elif brick_type==3:
+                    brick_matrix[row].append(ThreeUnitBrick(brick_point,frame))
+                elif brick_type==4:
+                    brick_matrix[row].append(UnbreakableBrick(brick_point,frame))
+                elif brick_type==5:
+                    brick_matrix[row].append(ExplodingBrick(brick_point,frame))
         return brick_matrix
 
 
