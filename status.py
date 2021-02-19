@@ -47,6 +47,18 @@ class Status:
         Returns current time from the start of the Game.
         '''
         return int(time()-self._begin_time)
+
+    def get_stage(self): 
+        '''
+        Returns current stage of the Game.
+        '''
+        return self._stage
+
+    def get_score(self): 
+        '''
+        Returns score of the current Game.
+        '''
+        return self._score
     
     def reset_status(self):
         '''
