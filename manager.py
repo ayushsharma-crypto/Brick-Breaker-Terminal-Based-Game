@@ -37,6 +37,8 @@ class Manager:
             self.frame.display()
         self.ball.self_move()
         self.user_input()
+        if self.brick_layout.get_total_brick()==0:
+            self.game_status.stage_up()
 
 
 

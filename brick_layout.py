@@ -33,6 +33,7 @@ class BrickLayout:
         constructor of the brick layout
         '''
         self.frame = frame
+        self.total_bricks = 0
         self.point = Point(LAYOUTXOFFSET,LAYOUTYOFFSET)
         self.dimension = Dimension(LAYOUTWIDTH,LAYOUTHEIGHT)
         self.location_n_type_matrix = self.generate_location_n_type_matrix()
@@ -75,11 +76,13 @@ class BrickLayout:
         Function will place the SingleBricks at the points
         stored in the location_n_type_matrix matrix.
         '''
+        self.total_bricks = 0
         brick_matrix = [ [] for j in range(len(self.location_n_type_matrix)) ]
         for row in range(len(brick_matrix)):
             for cell in range(len(self.location_n_type_matrix[row])):
                 brick_point = self.location_n_type_matrix[row][cell].place_point
                 brick_type = self.location_n_type_matrix[row][cell].brick_type
+                self.total_bricks += 1
                 if brick_type==1:
                     brick_matrix[row].append(OneUnitBrick(brick_point,frame))
                 elif brick_type==2:
@@ -88,8 +91,11 @@ class BrickLayout:
                     brick_matrix[row].append(ThreeUnitBrick(brick_point,frame))
                 elif brick_type==4:
                     brick_matrix[row].append(UnbreakableBrick(brick_point,frame))
+                    self.total_bricks -= 1
                 elif brick_type==5:
                     brick_matrix[row].append(ExplodingBrick(brick_point,frame))
+                else:
+                    self.total_bricks -= 1
         return brick_matrix
 
 
@@ -101,38 +107,54 @@ class BrickLayout:
         return self.brick_matrix
 
 
+    
+    def get_total_brick(self):
+        '''
+        returns the total number of bricks
+        '''
+        return self.total_bricks
 
-class LayoutStage2(BrickLayout):
-    '''
-    BrickLayout for stage2
-    '''
-    def __init__(self,frame: Frame):
+
+    
+    def decrease_total_brick(self):
         '''
-        constructor for this class
+        reduce the total number of bricks by 1
         '''
-        self.frame = frame
-        super().__init__(self.frame)
-        self.give_shape()
-        self.brick_matrix = self.make_brick_matrix(self.frame)
+        self.total_bricks -= 1
+
+
+
+# class LayoutStage2(BrickLayout):
+#     '''
+#     BrickLayout for stage2
+#     '''
+#     def __init__(self,frame: Frame):
+#         '''
+#         constructor for this class
+#         '''
+#         self.frame = frame
+#         super().__init__(self.frame)
+#         self.give_shape()
+#         self.brick_matrix = self.make_brick_matrix(self.frame)
     
 
 
-    def give_shape(self):
-        '''
-        This function is from the parrent class.
-        Now overriding it to give 
-        '''
-        for r in range(len(self.location_n_type_matrix)):
-            for c in range(len(self.location_n_type_matrix[r])):
-                if r==len(self.location_n_type_matrix)-1:
-                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(2,4))
-                elif r==len(self.location_n_type_matrix)-4:
-                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,2))
-                else:
-                    self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,3))
-                    if (r+c)%2:
-                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
-                        self.brick_matrix[r][c].break_brick()
+#     def give_shape(self):
+#         '''
+#         This function is from the parrent class.
+#         Now overriding it to give 
+#         '''
+#         for r in range(len(self.location_n_type_matrix)):
+#             for c in range(len(self.location_n_type_matrix[r])):
+#                 if r==len(self.location_n_type_matrix)-1:
+#                         self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(2,4))
+#                 elif r==len(self.location_n_type_matrix)-4:
+#                         self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,2))
+#                 else:
+#                     self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,3))
+#                     if (r+c)%2:
+#                         self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
+#                         self.brick_matrix[r][c].remove_brick()
 
 
 
@@ -169,7 +191,7 @@ class LayoutStage1(BrickLayout):
                     self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(2,4))
                     if (r+c)%2:
                         self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
-                        self.brick_matrix[r][c].break_brick()
+                        self.brick_matrix[r][c].remove_brick()
 
 
 
@@ -203,7 +225,7 @@ class LayoutStage2(BrickLayout):
                     self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,3))
                     if (r+c)%2:
                         self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
-                        self.brick_matrix[r][c].break_brick()
+                        self.brick_matrix[r][c].remove_brick()
 
 
 
@@ -238,7 +260,7 @@ class LayoutStage3(BrickLayout):
                     self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,4))
                     if (r+c)%2:
                         self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
-                        self.brick_matrix[r][c].break_brick()
+                        self.brick_matrix[r][c].remove_brick()
 
 
 def select_layout(stage: int,frame: Frame):

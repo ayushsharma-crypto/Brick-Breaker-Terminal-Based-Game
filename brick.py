@@ -1,7 +1,7 @@
 import time as tm
 
 from frame import Frame
-from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, Point
+from constants import BASICSCOREINCREMENT, BRICKHEIGHT, BRICKWIDTH, Dimension, Point
 from colorama import Fore,Back,Style
 
 BRICK_TYPE_ARRAY = [
@@ -56,7 +56,15 @@ class SingleBrick:
         This will make bricks break basically clear the frame.
         '''
         self.frame.clear_frame_area(self.point,self.dimension)
+        self.frame.status.add_score(BASICSCOREINCREMENT)
 
+
+
+    def remove_brick(self):
+        '''
+        This will remove the bricks.
+        '''
+        self.frame.clear_frame_area(self.point,self.dimension)
 
 
 class OneUnitBrick(SingleBrick):
@@ -93,6 +101,7 @@ class TwoUnitBrick(OneUnitBrick):
         '''
         if self.break_brick_time==1:
             self.frame.clear_frame_area(self.point,self.dimension)
+            self.frame.status.add_score(BASICSCOREINCREMENT)
         else:
             self.break_brick_time=1
             self.shape = self.initial_shape(Back.WHITE,Style.DIM)
@@ -121,6 +130,7 @@ class ThreeUnitBrick(OneUnitBrick):
         '''
         if self.break_brick_time==2:
             self.frame.clear_frame_area(self.point,self.dimension)
+            self.frame.status.add_score(BASICSCOREINCREMENT)
         elif self.break_brick_time==1:
             self.break_brick_time=2
             self.shape = self.initial_shape(Back.WHITE,Style.DIM)
@@ -150,7 +160,9 @@ class UnbreakableBrick(SingleBrick):
         '''
         This will make bricks break basically clear the frame.
         '''
-        pass
+        self.frame.clear_frame_area(self.point,self.dimension)
+        self.shape = self.initial_shape(Back.BLACK,Style.DIM)
+        self.draw()
 
 
 
