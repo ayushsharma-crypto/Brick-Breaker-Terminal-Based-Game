@@ -1,4 +1,4 @@
-from brick_layout import BrickLayout, LayoutStage1, select_layout
+from brick_layout import select_layout
 from frame import Frame
 from paddle import Paddle
 from ball import Ball
@@ -14,11 +14,8 @@ class Manager:
         self.game_status = game_status
         self.frame = Frame(self.game_status)
         self.paddle = Paddle(self.frame)
-        self.ball = Ball(self.frame,self.paddle)
-        # self.brick_layout = BrickLayout(self.frame)
-        # self.brick_layout_matrix = self.brick_layout.get_brick_matrix()
         self.brick_layout = select_layout(self.game_status.get_stage(),self.frame)
-        self.brick_layout_matrix = self.brick_layout.get_brick_matrix()
+        self.ball = Ball(self.frame,self.paddle)
         self.frame.display()
 
         tic = time()        
@@ -61,11 +58,11 @@ class Manager:
         # elif ch1 == 'i' or ch1 =='I':
         #     self.ball.speedx += 1
         #     self.ball.speedy += 1
-        elif ch1 == 'c' or ch1=='C':
-            self.ball.expand_paddle_effect()
-        elif ch1 == 'v' or ch1=='V':
-            self.ball.shrink_paddle_effect()
-        elif ch1 == 'b' or ch1=='B':
-            self.ball.default_paddle_effect()
+        # elif ch1 == 'c' or ch1=='C':
+        #     self.ball.expand_paddle_effect()
+        # elif ch1 == 'v' or ch1=='V':
+        #     self.ball.shrink_paddle_effect()
+        # elif ch1 == 'b' or ch1=='B':
+        #     self.ball.default_paddle_effect()
         elif ch1== ' ':
             self.ball.flip_stick(False)

@@ -1,6 +1,7 @@
 from paddle import Paddle
 from frame import Frame
-from random import randint
+from random import Random, randint, random
+import random as rm
 from constants import *
 from colorama import Fore,Style
 import time
@@ -21,8 +22,6 @@ class Ball:
         self.skip_iteration_tp = BALLSTEPTP
         self.tic = time.time()
         self.toc = time.time()
-        self.direction_x = True
-        self.direction_y = True
         self.dimension = Dimension(1,1)
         self.point = Point(
             randint(self.paddle.point.x,self.paddle.point.x+self.paddle.dimension.width-self.dimension.width),
@@ -30,6 +29,8 @@ class Ball:
         )
         self.shape = self.initial_shape()
         self.paddle_offset = self.point.x - self.paddle.point.x
+        self.direction_x = bool(rm.getrandbits(1))
+        self.direction_y = True
         # self.ball_type = "DEFAULT"
         self.draw()
 
