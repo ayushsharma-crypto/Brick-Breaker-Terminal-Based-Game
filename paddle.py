@@ -43,7 +43,7 @@ class Paddle:
         shape =  [ [ "" for i in range(EXPANDPADDLE) ] for j in range(PADDLEHEIGHT) ]
         for h in range(PADDLEHEIGHT):
             for w in range(EXPANDPADDLE):
-                shape[h][w] = f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}"
+                shape[h][w] = f"{Back.BLUE}{Style.BRIGHT} {Style.RESET_ALL}"
         
         self.re_draw(self.point,shape,Dimension(EXPANDPADDLE,PADDLEHEIGHT))
     

@@ -31,7 +31,6 @@ class Ball:
         self.paddle_offset = self.point.x - self.paddle.point.x
         self.direction_x = bool(rm.getrandbits(1))
         self.direction_y = True
-        # self.ball_type = "DEFAULT"
         self.draw()
 
 
@@ -42,9 +41,7 @@ class Ball:
         '''
         shape = [
             [
-                # f"{Fore.GREEN}{Style.BRIGHT}({Style.RESET_ALL}",
                 f"{Fore.GREEN}{Style.BRIGHT}@{Style.RESET_ALL}",
-                # f"{Style.BRIGHT}{Fore.GREEN}){Style.RESET_ALL}"
             ],
         ]
         return shape    
@@ -111,9 +108,9 @@ class Ball:
         The is function will automatically move not-stick
         ball along x-axis i.e. horizontally with speed self.speedx
         and rebound after colliding with obstacle elastically
-        Assume a ball of shape like `(a)`,`(#)`
+        Assume a ball of shape like `a`,`#`
         '''
-        if self.frame.current_frame[self.point.y][self.point.x-1]!=" " and self.frame.current_frame[self.point.y][self.point.x+self.dimension.width-1+1]!=" ":
+        if self.frame.current_frame[self.point.y][self.point.x-1]!=" " and self.frame.current_frame[self.point.y][self.point.x+1]!=" ":
             return self.point.x
 
         if self.direction_x==False:
@@ -128,13 +125,13 @@ class Ball:
                 return self.point.x-self.speedx
         
         else:
-            if self.frame.current_frame[self.point.y][self.point.x+self.dimension.width-1+1]!=" ":
+            if self.frame.current_frame[self.point.y][self.point.x+1]!=" ":
                 self.direction_x = False
                 self.catch_obstacle(self.point.x+self.dimension.width-1+1,self.point.y)
                 return self.automatic_move_x()
             else: 
                 for i in range(1,self.speedx+1):
-                    if self.frame.current_frame[self.point.y][self.point.x+self.dimension.width-1+i]!=" ":
+                    if self.frame.current_frame[self.point.y][self.point.x+i]!=" ":
                         return self.point.x+i-1         
                 return self.point.x+self.speedx
 
@@ -146,47 +143,31 @@ class Ball:
         The is function will automatically move not-stick
         ball along y-axis i.e. vertically with speed self.speedy
         and rebound after colliding with obstacle elastically
-        Assume a ball of shape like `(@)`,`(#)`
+        Assume a ball of shape like `@`,`#`
         '''
-        for i in range(self.dimension.width):
-            if self.frame.current_frame[self.point.y+1][i+self.point.x]!=" " and self.frame.current_frame[self.point.y-1][i+self.point.x]!=" ":
-                return self.point.y
+        if self.frame.current_frame[self.point.y+1][self.point.x]!=" " and self.frame.current_frame[self.point.y-1][self.point.x]!=" ":
+            return self.point.y
 
         if self.direction_y==False:
-            step_down = FRAMEHEIGHT*2
-            for i in range(self.dimension.width):
-                if self.frame.current_frame[self.point.y+1][i+self.point.x]!=" ":
-                    self.direction_y = True
-                    self.catch_obstacle(i+self.point.x,self.point.y+1)
-                    return self.automatic_move_y()
-                else:
-                    curr_step_down = self.speedy
-                    for j in range(1,self.speedy+1):
-                        if self.frame.current_frame[self.point.y+j][self.point.x+i]!=" ":
-                            curr_step_down=j-1
-                            break
-                    if curr_step_down < step_down:   
-                        step_down = curr_step_down             
-        
-            return self.point.y+step_down
-        
+            if self.frame.current_frame[self.point.y+1][self.point.x]!=" ":
+                self.direction_y = True
+                self.catch_obstacle(self.point.x,self.point.y+1)
+                return self.automatic_move_y()
+            else:
+                for j in range(1,self.speedy+1):
+                    if self.frame.current_frame[self.point.y+j][self.point.x]!=" ":
+                        return self.point.y+j-1
+                return self.point.y+self.speedy
         else:
-            step_up = FRAMEHEIGHT*2
-            for i in range(self.dimension.width):
-                if self.frame.current_frame[self.point.y-1][i+self.point.x]!=" ":
-                    self.direction_y = False
-                    self.catch_obstacle(i+self.point.x,self.point.y-1)
-                    return self.automatic_move_y()
-                else:
-                    curr_step_up = self.speedy
-                    for j in range(1,self.speedy+1):
-                        if (self.point.y-j < 1) or (self.frame.current_frame[self.point.y-j][i+self.point.x]!=" "):
-                            curr_step_up = j-1
-                            break
-                    if curr_step_up < step_up:
-                        step_up = curr_step_up
-
-            return self.point.y-step_up
+            if self.frame.current_frame[self.point.y-1][self.point.x]!=" ":
+                self.direction_y = False
+                self.catch_obstacle(self.point.x,self.point.y-1)
+                return self.automatic_move_y()
+            else:
+                for j in range(1,self.speedy+1):
+                    if self.frame.current_frame[self.point.y-j][self.point.x]!=" ":
+                        return self.point.y-j+1
+                return self.point.y-self.speedy
 
 
 
@@ -199,8 +180,8 @@ class Ball:
         '''
         if self.stick:
             return False
-        new_pos_x = self.automatic_move_x()
         new_pos_y = self.automatic_move_y()
+        new_pos_x = self.automatic_move_x()
         
         if not new_pos_x:
             new_pos_x=self.point.x
