@@ -1,3 +1,4 @@
+from brick import BRICK_TYPE_ARRAY
 from paddle import Paddle
 from frame import Frame
 from random import Random, randint, random
@@ -10,12 +11,13 @@ import time
 
 class Ball:
 
-    def __init__(self,frame: Frame,paddle: Paddle):
+    def __init__(self,frame: Frame,paddle: Paddle,brick_layout):
         '''
         constructor of the ball
         '''
         self.frame = frame
         self.paddle = paddle
+        self.brick_layout = brick_layout
         self.stick = True
         self.speedx = BALLSTEPX
         self.speedy = BALLSTEPY
@@ -288,15 +290,19 @@ class Ball:
         '''
         # print("[",self.frame.current_frame[coy][cox],"]","cox =
         if self.frame.current_frame[coy][cox] == self.paddle.shape[0][0]:
-            # print(self.speedx)
-            # self.flip_stick(True)
-            # print(self.speedx)
             self.handle_paddle_collision(cox)
-            # print(self.speedx)
-            # time.sleep(1)
-            # self.flip_stick(False)
-            # print(self.speedx)
-            # time.sleep(2)
+        else:
+            cell_value = self.frame.current_frame[coy][cox]
+            for i in range(len(BRICK_TYPE_ARRAY)):
+                if cell_value == BRICK_TYPE_ARRAY[i]:
+                    bm = self.brick_layout.get_brick_matrix()
+                    row_num = (coy-LAYOUTYOFFSET)//(BRICKHEIGHT+1)
+                    for brick in bm[row_num]:
+                        if (brick.point.x<=cox) and (brick.point.x+BRICKWIDTH>cox):
+                            brick.break_brick()
+                    break
+
+        
 
 
 
@@ -307,7 +313,7 @@ class Ball:
         self.frame.status.add_kill()
         self.shape = [[" "," "," "]]
         self.re_draw(self.point,self.shape,self.dimension)
-        self.__init__(self.frame,self.paddle)
+        self.__init__(self.frame,self.paddle,self.brick_layout)
         return True
 
 

@@ -1,7 +1,16 @@
+import time as tm
+
 from frame import Frame
 from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, Point
 from colorama import Fore,Back,Style
 
+BRICK_TYPE_ARRAY = [
+    f"{Back.WHITE}{Style.DIM} {Style.RESET_ALL}",
+    f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}",
+    f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}",
+    f"{Back.BLACK}{Style.DIM} {Style.RESET_ALL}",
+    f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}"
+]
 
 class SingleBrick:
     '''
@@ -13,19 +22,19 @@ class SingleBrick:
         '''
         self.point = point
         self.dimension = Dimension(BRICKWIDTH,BRICKHEIGHT)
-        self.shape = self.initial_shape()
+        self.shape = self.initial_shape(Back.WHITE,Style.DIM)
         self.frame = frame
 
 
 
 
-    def initial_shape(self):
+    def initial_shape(self,color,style):
         '''
         initialise shape of the single brick
         '''
         brick_row = []
         for i in range(BRICKWIDTH):
-            brick_row.append(f"{Back.WHITE}{Style.DIM} {Style.RESET_ALL}")
+            brick_row.append(f"{color}{style} {Style.RESET_ALL}")
         final_shape = []
         for i in range(BRICKHEIGHT):
             final_shape.append(brick_row)
@@ -71,27 +80,27 @@ class TwoUnitBrick(OneUnitBrick):
         '''
         constructor for this child class
         '''
+        self.break_brick_time = 0
         super().__init__(point,frame)
-        self.shape = self.initial_shape()
+        self.shape = self.initial_shape(Back.CYAN,Style.BRIGHT)
         self.draw()
 
 
 
-    def initial_shape(self):
+    def break_brick(self):
         '''
-        initialise shape of the single brick with strength two unit
+        This will make bricks break basically clear the frame.
         '''
-        brick_row = []
-        for i in range(BRICKWIDTH):
-            brick_row.append(f"{Back.CYAN}{Style.BRIGHT} {Style.RESET_ALL}")
-        final_shape = []
-        for i in range(BRICKHEIGHT):
-            final_shape.append(brick_row)
-        return final_shape
+        if self.break_brick_time==1:
+            self.frame.clear_frame_area(self.point,self.dimension)
+        else:
+            self.break_brick_time=1
+            self.shape = self.initial_shape(Back.WHITE,Style.DIM)
+            self.draw()
 
 
 
-class ThreeUnitBrick(TwoUnitBrick):
+class ThreeUnitBrick(OneUnitBrick):
     '''
     Bricks that will get destoyed on colliding thrice with the ball
     '''
@@ -99,24 +108,27 @@ class ThreeUnitBrick(TwoUnitBrick):
         '''
         constructor for this child class
         '''
+        self.break_brick_time=0
         super().__init__(point,frame)
-        self.shape = self.initial_shape()
+        self.shape = self.initial_shape(Back.MAGENTA,Style.BRIGHT)
         self.draw()
 
 
 
-    def initial_shape(self):
+    def break_brick(self):
         '''
-        initialise shape of the single brick
+        This will make bricks break basically clear the frame.
         '''
-        brick_row = []
-        for i in range(BRICKWIDTH):
-            brick_row.append(f"{Back.MAGENTA}{Style.BRIGHT} {Style.RESET_ALL}")
-        final_shape = []
-        for i in range(BRICKHEIGHT):
-            final_shape.append(brick_row)
-        return final_shape
-
+        if self.break_brick_time==2:
+            self.frame.clear_frame_area(self.point,self.dimension)
+        elif self.break_brick_time==1:
+            self.break_brick_time=2
+            self.shape = self.initial_shape(Back.WHITE,Style.DIM)
+            self.draw()
+        else:
+            self.break_brick_time=1
+            self.shape = self.initial_shape(Back.CYAN,Style.BRIGHT)
+            self.draw()
 
 
 class UnbreakableBrick(SingleBrick):
@@ -129,22 +141,16 @@ class UnbreakableBrick(SingleBrick):
         constructor for this child class
         '''
         super().__init__(point,frame)
-        self.shape = self.initial_shape()
+        self.shape = self.initial_shape(Back.BLACK,Style.DIM)
         self.draw()
 
 
 
-    def initial_shape(self):
+    def break_brick(self):
         '''
-        initialise shape of the single brick
+        This will make bricks break basically clear the frame.
         '''
-        brick_row = []
-        for i in range(BRICKWIDTH):
-            brick_row.append(f"{Back.BLACK}{Style.DIM} {Style.RESET_ALL}")
-        final_shape = []
-        for i in range(BRICKHEIGHT):
-            final_shape.append(brick_row)
-        return final_shape
+        pass
 
 
 
@@ -159,19 +165,5 @@ class ExplodingBrick(SingleBrick):
         constructor for this child class
         '''
         super().__init__(point,frame)
-        self.shape = self.initial_shape()
+        self.shape = self.initial_shape(Back.YELLOW,Style.BRIGHT)
         self.draw()
-
-
-
-    def initial_shape(self):
-        '''
-        initialise shape of the single brick
-        '''
-        brick_row = []
-        for i in range(BRICKWIDTH):
-            brick_row.append(f"{Back.YELLOW}{Style.BRIGHT} {Style.RESET_ALL}")
-        final_shape = []
-        for i in range(BRICKHEIGHT):
-            final_shape.append(brick_row)
-        return final_shape
