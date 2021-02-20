@@ -1,6 +1,7 @@
+from arts import show_result
 from time import time
 from manager import Manager
-from constants import MAXLIFE
+from constants import MAXLIFE, MAXSTAGE
 
 class Status:
     def __init__(self):
@@ -26,7 +27,7 @@ class Status:
         '''
         self._kill += 1
         if self._kill == self._life:
-            self.reset_status()
+            show_result(self.ret_status())
             self.start_game()
     
     def stage_up(self):
@@ -34,6 +35,8 @@ class Status:
         Staging up the player
         '''
         self._stage += 1
+        if self._stage > MAXSTAGE:
+            show_result(self.ret_status())
         self.start_game()
     
     def add_score(self,increment):
@@ -103,4 +106,5 @@ class Status:
         '''
         Game will get started for given status
         '''
+        self.reset_status()
         _ = Manager(self)

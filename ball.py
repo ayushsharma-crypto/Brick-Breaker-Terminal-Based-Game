@@ -43,7 +43,7 @@ class Ball:
         '''
         shape = [
             [
-                f"{Fore.GREEN}{Style.BRIGHT}@{Style.RESET_ALL}",
+                f"{Fore.GREEN}{Style.BRIGHT}☻{Style.RESET_ALL}",
             ],
         ]
         return shape    
@@ -302,8 +302,6 @@ class Ball:
                             brick.break_brick()
                             if i == 0:
                                 self.brick_layout.decrease_total_brick()
-                                print(self.brick_layout.get_total_brick())
-                                time.sleep(1)
                     break
 
         
