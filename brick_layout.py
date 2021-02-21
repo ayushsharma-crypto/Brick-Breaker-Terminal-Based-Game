@@ -158,7 +158,7 @@ class BrickLayout:
 
 
 
-class LayoutStage3(BrickLayout):
+class LayoutStage1(BrickLayout):
     '''
     BrickLayout for stage
     '''
@@ -229,7 +229,7 @@ class LayoutStage2(BrickLayout):
 
 
 
-class LayoutStage1(BrickLayout):
+class LayoutStage3(BrickLayout):
     '''
     BrickLayout for stage3
     '''
