@@ -298,7 +298,7 @@ class Ball:
                     row_num = (coy-LAYOUTYOFFSET)//(BRICKHEIGHT+1)
                     for brick in bm[row_num]:
                         if (brick.point.x<=cox) and (brick.point.x+BRICKWIDTH>cox):
-                            if i == 0:
+                            if (i == 0):
                                 brick.break_brick()
                                 self.brick_layout.decrease_total_brick()
                             elif i == 4:
@@ -319,6 +319,7 @@ class Ball:
         if self.frame.current_frame[brick.point.y][brick.point.x]==" ":
             return
         brick.break_brick()
+        self.brick_layout.decrease_total_brick()
         
         left_brick = self.get_left_brick(brick,row_num)
         right_brick = self.get_right_brick(brick,row_num)
@@ -349,7 +350,8 @@ class Ball:
                 else:
                     while bm[row_num][cell].break_brick_time > 0:
                         bm[row_num][cell].break_brick()
-
+                        if bm[row_num][cell].break_brick_time == 0:
+                            self.brick_layout.decrease_total_brick()
                 break        
 
 
@@ -372,6 +374,8 @@ class Ball:
                 else:
                     while bm[row_num][cell].break_brick_time > 0:
                         bm[row_num][cell].break_brick()
+                        if bm[row_num][cell].break_brick_time == 0:
+                            self.brick_layout.decrease_total_brick()
                 break        
 
 
@@ -397,6 +401,8 @@ class Ball:
                 else:
                     while bm[row_num][cell].break_brick_time > 0:
                         bm[row_num][cell].break_brick()
+                        if bm[row_num][cell].break_brick_time == 0:
+                            self.brick_layout.decrease_total_brick()
                 break               
 
 
@@ -422,6 +428,8 @@ class Ball:
                 else:
                     while bm[row_num][cell].break_brick_time > 0:
                         bm[row_num][cell].break_brick()
+                        if bm[row_num][cell].break_brick_time == 0:
+                            self.brick_layout.decrease_total_brick()
                 break
 
 
@@ -447,6 +455,8 @@ class Ball:
                 else:
                     while bm[row_num][cell].break_brick_time > 0:
                         bm[row_num][cell].break_brick()
+                        if bm[row_num][cell].break_brick_time == 0:
+                            self.brick_layout.decrease_total_brick()
                 break
 
 
@@ -472,6 +482,8 @@ class Ball:
                 else:
                     while bm[row_num][cell].break_brick_time > 0:
                         bm[row_num][cell].break_brick()
+                        if bm[row_num][cell].break_brick_time == 0:
+                            self.brick_layout.decrease_total_brick()
                 break
 
 
@@ -497,6 +509,8 @@ class Ball:
                 else:
                     while bm[row_num][cell].break_brick_time > 0:
                         bm[row_num][cell].break_brick()
+                        if bm[row_num][cell].break_brick_time == 0:
+                            self.brick_layout.decrease_total_brick()
                 break
 
 
@@ -522,6 +536,8 @@ class Ball:
                 else:
                     while bm[row_num][cell].break_brick_time > 0:
                         bm[row_num][cell].break_brick()
+                        if bm[row_num][cell].break_brick_time == 0:
+                            self.brick_layout.decrease_total_brick()
                 break
 
 
