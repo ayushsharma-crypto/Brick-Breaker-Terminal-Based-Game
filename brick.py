@@ -20,6 +20,7 @@ class SingleBrick:
         '''
         constructor of a single brick
         '''
+        self.break_brick_time = 1
         self.point = point
         self.dimension = Dimension(BRICKWIDTH,BRICKHEIGHT)
         self.shape = self.initial_shape(Back.WHITE,Style.DIM)
@@ -55,8 +56,10 @@ class SingleBrick:
         '''
         This will make bricks break basically clear the frame.
         '''
-        self.frame.clear_frame_area(self.point,self.dimension)
-        self.frame.status.add_score(BASICSCOREINCREMENT)
+        if self.break_brick_time>0:
+            self.break_brick_time -= 1
+            self.frame.clear_frame_area(self.point,self.dimension)
+            self.frame.status.add_score(BASICSCOREINCREMENT)
 
 
 
@@ -88,8 +91,8 @@ class TwoUnitBrick(OneUnitBrick):
         '''
         constructor for this child class
         '''
-        self.break_brick_time = 0
         super().__init__(point,frame)
+        self.break_brick_time = 2
         self.shape = self.initial_shape(Back.CYAN,Style.BRIGHT)
         self.draw()
 
@@ -99,13 +102,14 @@ class TwoUnitBrick(OneUnitBrick):
         '''
         This will make bricks break basically clear the frame.
         '''
-        if self.break_brick_time==1:
-            self.frame.clear_frame_area(self.point,self.dimension)
-            self.frame.status.add_score(BASICSCOREINCREMENT)
-        else:
-            self.break_brick_time=1
+        if self.break_brick_time==2:
+            self.break_brick_time -= 1
             self.shape = self.initial_shape(Back.WHITE,Style.DIM)
             self.draw()
+        elif self.break_brick_time==1:
+            self.break_brick_time -= 1
+            self.frame.clear_frame_area(self.point,self.dimension)
+            self.frame.status.add_score(BASICSCOREINCREMENT)
 
 
 
@@ -117,8 +121,8 @@ class ThreeUnitBrick(OneUnitBrick):
         '''
         constructor for this child class
         '''
-        self.break_brick_time=0
         super().__init__(point,frame)
+        self.break_brick_time=3
         self.shape = self.initial_shape(Back.MAGENTA,Style.BRIGHT)
         self.draw()
 
@@ -128,17 +132,21 @@ class ThreeUnitBrick(OneUnitBrick):
         '''
         This will make bricks break basically clear the frame.
         '''
-        if self.break_brick_time==2:
-            self.frame.clear_frame_area(self.point,self.dimension)
-            self.frame.status.add_score(BASICSCOREINCREMENT)
-        elif self.break_brick_time==1:
-            self.break_brick_time=2
-            self.shape = self.initial_shape(Back.WHITE,Style.DIM)
-            self.draw()
-        else:
-            self.break_brick_time=1
+        if self.break_brick_time==3:
+            self.break_brick_time -= 1
             self.shape = self.initial_shape(Back.CYAN,Style.BRIGHT)
             self.draw()
+
+        elif self.break_brick_time==2:
+            self.break_brick_time -= 1
+            self.shape = self.initial_shape(Back.WHITE,Style.DIM)
+            self.draw()
+
+        elif self.break_brick_time==1:
+            self.break_brick_time -= 1
+            self.frame.clear_frame_area(self.point,self.dimension)
+            self.frame.status.add_score(BASICSCOREINCREMENT)
+
 
 
 class UnbreakableBrick(SingleBrick):
@@ -163,6 +171,16 @@ class UnbreakableBrick(SingleBrick):
         self.frame.clear_frame_area(self.point,self.dimension)
         self.shape = self.initial_shape(Back.BLACK,Style.DIM)
         self.draw()
+
+
+
+    def explode_unbreak_brick(self):
+        '''
+        This will make bricks break basically clear the frame when
+        exploded due to chain reaction.
+        '''
+        self.break_brick_time = 0
+        self.frame.clear_frame_area(self.point,self.dimension)
 
 
 

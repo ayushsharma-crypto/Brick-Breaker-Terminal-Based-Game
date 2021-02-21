@@ -288,7 +288,6 @@ class Ball:
         The is function will print the current object
         on frame at the co-ordinate cox,coy
         '''
-        # print("[",self.frame.current_frame[coy][cox],"]","cox =
         if self.frame.current_frame[coy][cox] == self.paddle.shape[0][0]:
             self.handle_paddle_collision(cox)
         else:
@@ -299,15 +298,232 @@ class Ball:
                     row_num = (coy-LAYOUTYOFFSET)//(BRICKHEIGHT+1)
                     for brick in bm[row_num]:
                         if (brick.point.x<=cox) and (brick.point.x+BRICKWIDTH>cox):
-                            brick.break_brick()
                             if i == 0:
-                                print(self.brick_layout.get_total_brick())
+                                brick.break_brick()
                                 self.brick_layout.decrease_total_brick()
-                                print(self.brick_layout.get_total_brick())
-                                time.sleep(1)
+                            elif i == 4:
+                                self.initiate_chain_reaction(row_num,brick)
+                            else:
+                                brick.break_brick()
+                            break
                     break
 
+
+
+    def initiate_chain_reaction(self,row_num,brick):
+        '''
+        This function will handle the chain reaction
+        in case the ball hits special bricks that is
+        exploding brick.
+        '''
+        if self.frame.current_frame[brick.point.y][brick.point.x]==" ":
+            return
+        brick.break_brick()
         
+        left_brick = self.get_left_brick(brick,row_num)
+        right_brick = self.get_right_brick(brick,row_num)
+        top_brick = self.get_top_brick(brick,row_num)
+        bottom_brick = self.get_bottom_brick(brick,row_num)
+        left_top_brick = self.get_left_top_brick(brick,row_num)
+        right_top_brick = self.get_right_top_brick(brick,row_num)
+        left_bottom_brick = self.get_left_bottom_brick(brick,row_num)
+        right_bottom_brick = self.get_right_bottom_brick(brick,row_num)
+
+
+
+    def get_left_brick(self,this_brick,row_num):
+        '''
+        The is function will get brick left to brick with point this_brick
+        '''
+        bm = self.brick_layout.get_brick_matrix()
+        this_point = this_brick.point
+        for cell in range(len(bm[row_num])):
+            x,y = bm[row_num][cell].point.x,bm[row_num][cell].point.y
+            if (x==this_point.x-BRICKWIDTH-1) and (y==this_point.y):
+                if self.frame.current_frame[y][x]==" ":
+                    ''' Already Deleted '''
+                elif self.frame.current_frame[y][x]==BRICK_TYPE_ARRAY[4]:
+                    self.initiate_chain_reaction(row_num,bm[row_num][cell])
+                elif self.frame.current_frame[y][x] == BRICK_TYPE_ARRAY[3]:
+                    bm[row_num][cell].explode_unbreak_brick()
+                else:
+                    while bm[row_num][cell].break_brick_time > 0:
+                        bm[row_num][cell].break_brick()
+
+                break        
+
+
+
+    def get_right_brick(self,this_brick,row_num):
+        '''
+        The is function will get brick right to brick with point this_point
+        '''
+        bm = self.brick_layout.get_brick_matrix()
+        this_point = this_brick.point
+        for cell in range(len(bm[row_num])):
+            x,y = bm[row_num][cell].point.x,bm[row_num][cell].point.y
+            if (x==this_point.x+BRICKWIDTH+1) and (y==this_point.y):
+                if self.frame.current_frame[y][x]==" ":
+                    ''' Already Deleted '''
+                elif self.frame.current_frame[y][x]==BRICK_TYPE_ARRAY[4]:
+                    self.initiate_chain_reaction(row_num,bm[row_num][cell])
+                elif self.frame.current_frame[y][x] == BRICK_TYPE_ARRAY[3]:
+                    bm[row_num][cell].explode_unbreak_brick()
+                else:
+                    while bm[row_num][cell].break_brick_time > 0:
+                        bm[row_num][cell].break_brick()
+                break        
+
+
+
+    def get_top_brick(self,this_brick,row_num):
+        '''
+        The is function will get brick top to brick with point this_point
+        '''
+        bm = self.brick_layout.get_brick_matrix()
+        this_point = this_brick.point
+        if row_num==0:
+            return
+        row_num -= 1
+        for cell in range(len(bm[row_num])):
+            x,y = bm[row_num][cell].point.x,bm[row_num][cell].point.y
+            if (x==this_point.x) and (y==this_point.y-1-BRICKHEIGHT):
+                if self.frame.current_frame[y][x]==" ":
+                    ''' Already Deleted '''
+                elif self.frame.current_frame[y][x]==BRICK_TYPE_ARRAY[4]:
+                    self.initiate_chain_reaction(row_num,bm[row_num][cell])
+                elif self.frame.current_frame[y][x] == BRICK_TYPE_ARRAY[3]:
+                    bm[row_num][cell].explode_unbreak_brick()
+                else:
+                    while bm[row_num][cell].break_brick_time > 0:
+                        bm[row_num][cell].break_brick()
+                break               
+
+
+
+    def get_bottom_brick(self,this_brick,row_num):
+        '''
+        The is function will get brick bottom to brick with point this_point
+        '''
+        bm = self.brick_layout.get_brick_matrix()
+        this_point = this_brick.point
+        if (row_num+1)==(LAYOUTHEIGHT//(BRICKHEIGHT+1)):
+            return
+        row_num += 1
+        for cell in range(len(bm[row_num])):
+            x,y = bm[row_num][cell].point.x,bm[row_num][cell].point.y
+            if (x==this_point.x) and (y==this_point.y+1+BRICKHEIGHT):
+                if self.frame.current_frame[y][x]==" ":
+                    ''' Already Deleted '''
+                elif self.frame.current_frame[y][x]==BRICK_TYPE_ARRAY[4]:
+                    self.initiate_chain_reaction(row_num,bm[row_num][cell])
+                elif self.frame.current_frame[y][x] == BRICK_TYPE_ARRAY[3]:
+                    bm[row_num][cell].explode_unbreak_brick()
+                else:
+                    while bm[row_num][cell].break_brick_time > 0:
+                        bm[row_num][cell].break_brick()
+                break
+
+
+
+    def get_left_top_brick(self,this_brick,row_num):
+        '''
+        The is function will get brick left-top to brick with point this_point
+        '''
+        bm = self.brick_layout.get_brick_matrix()
+        this_point = this_brick.point
+        if row_num==0:
+            return
+        row_num -= 1
+        for cell in range(len(bm[row_num])):
+            x,y = bm[row_num][cell].point.x,bm[row_num][cell].point.y
+            if (x==this_point.x-BRICKWIDTH-1) and (y==this_point.y-1-BRICKHEIGHT):
+                if self.frame.current_frame[y][x]==" ":
+                    ''' Already Deleted '''
+                elif self.frame.current_frame[y][x]==BRICK_TYPE_ARRAY[4]:
+                    self.initiate_chain_reaction(row_num,bm[row_num][cell])
+                elif self.frame.current_frame[y][x] == BRICK_TYPE_ARRAY[3]:
+                    bm[row_num][cell].explode_unbreak_brick()
+                else:
+                    while bm[row_num][cell].break_brick_time > 0:
+                        bm[row_num][cell].break_brick()
+                break
+
+
+
+    def get_right_top_brick(self,this_brick,row_num):
+        '''
+        The is function will get brick right-top to brick with point this_point
+        '''
+        bm = self.brick_layout.get_brick_matrix()
+        this_point = this_brick.point
+        if row_num==0:
+            return
+        row_num -= 1
+        for cell in range(len(bm[row_num])):
+            x,y = bm[row_num][cell].point.x,bm[row_num][cell].point.y
+            if (x==this_point.x+BRICKWIDTH+1) and (y==this_point.y-1-BRICKHEIGHT):
+                if self.frame.current_frame[y][x]==" ":
+                    ''' Already Deleted '''
+                elif self.frame.current_frame[y][x]==BRICK_TYPE_ARRAY[4]:
+                    self.initiate_chain_reaction(row_num,bm[row_num][cell])
+                elif self.frame.current_frame[y][x] == BRICK_TYPE_ARRAY[3]:
+                    bm[row_num][cell].explode_unbreak_brick()
+                else:
+                    while bm[row_num][cell].break_brick_time > 0:
+                        bm[row_num][cell].break_brick()
+                break
+
+
+
+    def get_left_bottom_brick(self,this_brick,row_num):
+        '''
+        The is function will get brick left-bottom to brick with point this_point
+        '''
+        bm = self.brick_layout.get_brick_matrix()
+        this_point = this_brick.point
+        if (row_num+1)==(LAYOUTHEIGHT//(BRICKHEIGHT+1)):
+            return
+        row_num += 1
+        for cell in range(len(bm[row_num])):
+            x,y = bm[row_num][cell].point.x,bm[row_num][cell].point.y
+            if (x==this_point.x-BRICKWIDTH-1) and (y==this_point.y+BRICKHEIGHT+1):
+                if self.frame.current_frame[y][x]==" ":
+                    ''' Already Deleted '''
+                elif self.frame.current_frame[y][x]==BRICK_TYPE_ARRAY[4]:
+                    self.initiate_chain_reaction(row_num,bm[row_num][cell])
+                elif self.frame.current_frame[y][x] == BRICK_TYPE_ARRAY[3]:
+                    bm[row_num][cell].explode_unbreak_brick()
+                else:
+                    while bm[row_num][cell].break_brick_time > 0:
+                        bm[row_num][cell].break_brick()
+                break
+
+
+
+    def get_right_bottom_brick(self,this_brick,row_num):
+        '''
+        The is function will get brick right-bottom to brick with point this_point
+        '''
+        bm = self.brick_layout.get_brick_matrix()
+        this_point = this_brick.point
+        if (row_num+1)==(LAYOUTHEIGHT//(BRICKHEIGHT+1)):
+            return
+        row_num += 1
+        for cell in range(len(bm[row_num])):
+            x,y = bm[row_num][cell].point.x,bm[row_num][cell].point.y
+            if (x==this_point.x+BRICKWIDTH+1) and (y==this_point.y+1+BRICKHEIGHT):
+                if self.frame.current_frame[y][x]==" ":
+                    ''' Already Deleted '''
+                elif self.frame.current_frame[y][x]==BRICK_TYPE_ARRAY[4]:
+                    self.initiate_chain_reaction(row_num,bm[row_num][cell])
+                elif self.frame.current_frame[y][x] == BRICK_TYPE_ARRAY[3]:
+                    bm[row_num][cell].explode_unbreak_brick()
+                else:
+                    while bm[row_num][cell].break_brick_time > 0:
+                        bm[row_num][cell].break_brick()
+                break
+
 
 
 
