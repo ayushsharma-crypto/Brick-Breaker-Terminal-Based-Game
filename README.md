@@ -21,7 +21,7 @@ a life when the ball touches the ground below the paddle.
 
 
 Reqiurements
---------------------
+
 - Python3
 - Colorama
 
@@ -47,9 +47,7 @@ python3 main.py
 * NOTE: Input file i.e. `input.py` has been made & checked only for UBUNTU OS.
 
 
-## GAME RULES
-
-Rules
+GAME RULES
 -------------------
 
 > - Player will have total `3` lives.
