@@ -71,7 +71,7 @@ Controls
 >- Press `Spacebar` to release the ball
 >- Press `a` or `A` to move paddle left
 >- Press `d` or `D` to move paddle right
->- Press `i` or `I` to change your Ball
+>- Press `p` or `P` to change your Ball
 >- To quit, press `q`
 
 ___________________

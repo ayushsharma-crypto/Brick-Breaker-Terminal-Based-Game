@@ -54,15 +54,17 @@ GAMEINSTRUCTION =[
     " |                                           |",
     " | Press d or D to move paddle right         |",
     " |                                           |",
+    " | Press p or P to move change ball shape    |",
+    " |                                           |",
     " | Total 3 lives                             |",
     " |                                           |",
     " | Total 3 stages or level                   |",
     " |                                           |",
-    " | somemore...                               |",
+    " | Score +5 when a brick gto broke.          |",
     " |                                           |",
-    " | Score +                                   |",
+    " | Total 5 different Bricks type.            |",
     " |                                           |",
-    " | Bricks type                               |",
+    " | README for more info.                     |",
     " |___________________________________________|"
 ]
 
@@ -102,33 +104,6 @@ OTHERWISE = [
 "                                         "
 
 ]
-
-
-SCORE = [
-" +-+-+-+-+-+ +-+",          
-" |S|C|O|R|E| |:|",          
-" +-+-+-+-+-+ +-+",
-]
-
-LIVES =[        
-" +-+-+-+-+-+ +-+",          
-" |L|I|V|E|S| |:|",            
-" +-+-+-+-+-+-+-+",    
-
-]
-
-TIME = [
-" +-+-+-+-+-+-+",
-" |T|I|M|E| |:|",
-" +-+-+-+-+-+-+",
-]
-
-MAXSTAGE = [
-" +-+-+-+-+-+-+-+-+-+-+-+",
-" |M|A|X|-|S|T|A|G|E| |:|",        
-" +-+-+-+-+-+-+-+-+-+ +-+",
-]
-
 
 
 def print_art(art: list,color):
