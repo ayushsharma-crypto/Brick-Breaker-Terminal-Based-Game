@@ -37,7 +37,7 @@ class Status:
         self._stage += 1
         if self._stage > MAXSTAGE:
             show_result(self.ret_status())
-        self.start_game()
+        self.start_game(1)
     
     def add_score(self,increment):
         '''
@@ -102,9 +102,10 @@ class Status:
     #         )
     #     print(Style.RESET_ALL)    
     
-    def start_game(self):
+    def start_game(self,flag = 0):
         '''
         Game will get started for given status
         '''
-        self.reset_status()
+        if flag==0:
+            self.reset_status()
         _ = Manager(self)

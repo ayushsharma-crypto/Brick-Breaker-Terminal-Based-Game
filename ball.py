@@ -301,7 +301,10 @@ class Ball:
                         if (brick.point.x<=cox) and (brick.point.x+BRICKWIDTH>cox):
                             brick.break_brick()
                             if i == 0:
+                                print(self.brick_layout.get_total_brick())
                                 self.brick_layout.decrease_total_brick()
+                                print(self.brick_layout.get_total_brick())
+                                time.sleep(1)
                     break
 
         

@@ -182,16 +182,16 @@ class LayoutStage1(BrickLayout):
             for c in range(len(self.location_n_type_matrix[r])):
                 if r==len(self.location_n_type_matrix)-1:
                         self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,2))
-                elif r==0:
-                    RN = randint(1,100)%2
-                    if RN==0:
-                        RN=3
-                    self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,RN)
+                # elif r==0:
+                #     RN = randint(1,100)%2
+                #     if RN==0:
+                #         RN=3
+                #     self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,RN)
                 else:
                     self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(2,4))
-                    if (r+c)%2:
-                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
-                        self.brick_matrix[r][c].remove_brick()
+                    # if (r+c)%2:
+                    self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
+                    self.brick_matrix[r][c].remove_brick()
 
 
 
