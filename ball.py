@@ -18,6 +18,8 @@ class Ball:
         self.frame = frame
         self.paddle = paddle
         self.brick_layout = brick_layout
+        self.different_types_ball = ['☻','⦾','⦿','◘','○','♥','☺']
+        self.shape_index = 0
         self.stick = True
         self.speedx = BALLSTEPX
         self.speedy = BALLSTEPY
@@ -43,10 +45,25 @@ class Ball:
         '''
         shape = [
             [
-                f"{Fore.GREEN}{Style.BRIGHT}☻{Style.RESET_ALL}",
+                f"{Fore.GREEN}{Style.BRIGHT}{self.different_types_ball[self.shape_index]}{Style.RESET_ALL}",
             ],
         ]
-        return shape    
+        return shape  
+
+
+
+    def next_shape(self):
+        '''
+        initial shape of the ball
+        '''
+        self.shape_index = (self.shape_index+1)%len(self.different_types_ball)
+        shape = [
+            [
+                f"{Fore.GREEN}{Style.BRIGHT}{self.different_types_ball[self.shape_index]}{Style.RESET_ALL}",
+            ],
+        ]
+        self.shape = shape
+        self.re_draw(self.point,self.shape,self.dimension)    
 
 
 

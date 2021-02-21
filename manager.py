@@ -57,6 +57,8 @@ class Manager:
             self.ball.move_with_paddle()
         elif ch1 == 'q' or ch1 =='Q':
             quit()
+        elif ch1 == 'p' or ch1 =='P':
+            self.ball.next_shape()
         # elif ch1 == 'i' or ch1 =='I':
         #     self.ball.speedx += 1
         #     self.ball.speedy += 1
