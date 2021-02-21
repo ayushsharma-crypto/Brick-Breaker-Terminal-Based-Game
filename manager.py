@@ -59,14 +59,17 @@ class Manager:
             quit()
         elif ch1 == 'p' or ch1 =='P':
             self.ball.next_shape()
-        # elif ch1 == 'i' or ch1 =='I':
-        #     self.ball.speedx += 1
-        #     self.ball.speedy += 1
-        # elif ch1 == 'c' or ch1=='C':
-        #     self.ball.expand_paddle_effect()
-        # elif ch1 == 'v' or ch1=='V':
-        #     self.ball.shrink_paddle_effect()
-        # elif ch1 == 'b' or ch1=='B':
-        #     self.ball.default_paddle_effect()
+        elif ch1 == 'i' or ch1 =='I':
+            self.ball.speedx ==2
+            self.ball.speedy ==2
+        elif ch1 == 'k' or ch1 =='K':
+            self.ball.speedx ==1
+            self.ball.speedy ==1
+        elif ch1 == 'c' or ch1=='C':
+            self.ball.expand_paddle_effect()
+        elif ch1 == 'v' or ch1=='V':
+            self.ball.shrink_paddle_effect()
+        elif ch1 == 'b' or ch1=='B':
+            self.ball.default_paddle_effect()
         elif ch1== ' ':
             self.ball.flip_stick(False)

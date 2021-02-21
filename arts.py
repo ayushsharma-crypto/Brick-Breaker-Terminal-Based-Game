@@ -171,13 +171,16 @@ def show_result(stat_dict):
     sys.stdout.flush()
     sys.stdin.flush()
     os.system('tput reset')
+    st = stat_dict['STAGE']
+    if stat_dict['STAGE']==4:
+        st = 3
     print_art(GAMECOMPLETED,Fore.GREEN)
     print(Fore.BLUE,Style.BRIGHT)
     print("\tXXXXXXXXXXXXXXXXXXXXXXXX")
     print("\n\t|->  SCORE    :  ", stat_dict['SCORE'])
     print("\n\t|->  LIVES    :  ", stat_dict['LIVES'])
     print("\n\t|->  TIME     :  ", stat_dict['TIME'])
-    print("\n\t|->  MAXSTAGE :  ", stat_dict['STAGE'])
+    print("\n\t|->  MAXSTAGE :  ", st)
     print("\n")
     print("\tXXXXXXXXXXXXXXXXXXXXXXXX")
     print("\n\n\n")

@@ -593,7 +593,7 @@ class Ball:
         if self.stick:
             self.shape = [[" "," "," "]]
             self.re_draw(self.point,self.shape,self.dimension)
-            self.__init__(self.frame,self.paddle)
+            self.__init__(self.frame,self.paddle,self.brick_layout)
 
 
     
@@ -605,7 +605,7 @@ class Ball:
         if self.stick:
             self.shape = [[" "," "," "]]
             self.re_draw(self.point,self.shape,self.dimension)
-            self.__init__(self.frame,self.paddle)
+            self.__init__(self.frame,self.paddle,self.brick_layout)
 
 
     
@@ -617,4 +617,4 @@ class Ball:
         if self.stick:
             self.shape = [[" "," "," "]]
             self.re_draw(self.point,self.shape,self.dimension)
-            self.__init__(self.frame,self.paddle)
+            self.__init__(self.frame,self.paddle,self.brick_layout)
