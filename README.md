@@ -9,7 +9,7 @@ of bricks scores! The objective of the game is to break
 all the bricks as fast as possible. You lose 
 a life when the ball touches the ground below the paddle.
 
-Rules of the Game
+Features
 -------------------
 
 > - The code is modular and extensible to new features.
@@ -20,6 +20,20 @@ Rules of the Game
 -------------------
 
 
+Reqiurements:
+--------------------
+- Python3
+
+For mac:
+```
+brew cask update
+sudo brew cask install python3
+```
+For Linux:
+```
+sudo apt-get update
+sudo apt-get install python3
+```
 
 ## DESCRIPTION
 
@@ -150,18 +164,3 @@ python3 main.py
 >- press 'q' to quit.
 
 ___________________
-
-Reqiurements:
---------------------
-- Python3
-
-For mac:
-```
-brew cask update
-sudo brew cask install python3
-```
-For Linux:
-```
-sudo apt-get update
-sudo apt-get install python3
-```
