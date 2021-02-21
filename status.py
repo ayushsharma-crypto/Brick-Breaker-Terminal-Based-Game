@@ -37,6 +37,7 @@ class Status:
         self._stage += 1
         if self._stage > MAXSTAGE:
             show_result(self.ret_status())
+            self.reset_status()
         self.start_game(1)
     
     def add_score(self,increment):
