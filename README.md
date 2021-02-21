@@ -16,24 +16,45 @@ Features
 > - Concepts of object oriented programming is present in the code
 > - The game is a basic simulator of brick breaker
 > - Libraries used are colorama.
+> - Note: The development has been done on Ubuntu 18.04 OS.
 
 -------------------
 
 
+## GUIDE
+
 Reqiurements:
 --------------------
 - Python3
+- Colorama
 
 For mac:
 ```
 brew cask update
 sudo brew cask install python3
+pip install colorama
 ```
 For Linux:
 ```
 sudo apt-get update
 sudo apt-get install python3
+pip install colorama
 ```
+
+
+How To Play:
+------------------
+
+>- Run the following code to start the game.
+```
+python3 main.py
+```
+>- 'w, a, d' use these controls for up, left, and right.
+>- use 'e' to shoot.
+>- use ' ' to activate shield. 
+>- press 'q' to quit.
+
+___________________
 
 ## DESCRIPTION
 
@@ -147,20 +168,3 @@ Rules
 ## FUNCTIONALITIES
 
 
-
-## GUIDE
-
-
-How To Play:
-------------------
->- Run `pip3 install requirements.txt`
->- Run the following code to start the game.
-```
-python3 main.py
-```
->- 'w, a, d' use these controls for up, left, and right.
->- use 'e' to shoot.
->- use ' ' to activate shield. 
->- press 'q' to quit.
-
-___________________
