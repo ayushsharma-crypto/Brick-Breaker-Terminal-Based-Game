@@ -73,3 +73,5 @@ class Manager:
             self.ball.default_paddle_effect()
         elif ch1== ' ':
             self.ball.flip_stick(False)
+        elif ch1 == '\\':
+            self.game_status.stage_up()
