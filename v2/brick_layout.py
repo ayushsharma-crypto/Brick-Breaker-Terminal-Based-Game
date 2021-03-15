@@ -1,5 +1,4 @@
 from random import randint
-import time
 from brick import OneUnitBrick, TwoUnitBrick, ThreeUnitBrick, UnbreakableBrick, ExplodingBrick
 from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, LAYOUTHEIGHT, LAYOUTWIDTH, LAYOUTXOFFSET, LAYOUTYOFFSET, Point
 from frame import Frame
@@ -15,6 +14,7 @@ class LocationType:
         3 => ThreeUnitBrick
         4 => UnbreakableBrick
         5 => ExplodingBrick
+        6 => RainbowBrick
         -1 => No brick
     '''
     def __init__(self,place_point: Point,brick_type: int=1):
@@ -124,40 +124,6 @@ class BrickLayout:
 
 
 
-# class LayoutStage2(BrickLayout):
-#     '''
-#     BrickLayout for stage2
-#     '''
-#     def __init__(self,frame: Frame):
-#         '''
-#         constructor for this class
-#         '''
-#         self.frame = frame
-#         super().__init__(self.frame)
-#         self.give_shape()
-#         self.brick_matrix = self.make_brick_matrix(self.frame)
-    
-
-
-#     def give_shape(self):
-#         '''
-#         This function is from the parrent class.
-#         Now overriding it to give 
-#         '''
-#         for r in range(len(self.location_n_type_matrix)):
-#             for c in range(len(self.location_n_type_matrix[r])):
-#                 if r==len(self.location_n_type_matrix)-1:
-#                         self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(2,4))
-#                 elif r==len(self.location_n_type_matrix)-4:
-#                         self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,2))
-#                 else:
-#                     self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,3))
-#                     if (r+c)%2:
-#                         self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
-#                         self.brick_matrix[r][c].remove_brick()
-
-
-
 class LayoutStage1(BrickLayout):
     '''
     BrickLayout for stage
@@ -261,6 +227,7 @@ class LayoutStage3(BrickLayout):
                     if (r+c)%2:
                         self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
                         self.brick_matrix[r][c].remove_brick()
+
 
 
 def select_layout(stage: int,frame: Frame):
