@@ -1,8 +1,6 @@
-import time as tm
-
 from frame import Frame
 from constants import BASICSCOREINCREMENT, BRICKHEIGHT, BRICKWIDTH, Dimension, Point
-from colorama import Fore,Back,Style
+from colorama import Back,Style
 
 BRICK_TYPE_ARRAY = [
     f"{Back.WHITE}{Style.DIM} {Style.RESET_ALL}",
@@ -197,3 +195,69 @@ class ExplodingBrick(SingleBrick):
         super().__init__(point,frame)
         self.shape = self.initial_shape(Back.YELLOW,Style.BRIGHT)
         self.draw()
+
+
+
+class RainbowBrick(OneUnitBrick):
+    '''
+    This is a new type of brick which keeps changing colours (also hardness) till it is first made in contact with.
+    '''
+    def __init__(self,point: Point,frame: Frame):
+        '''
+        constructor for this child class
+        '''
+        super().__init__(point,frame)
+        self.unhit = True
+        self.draw()
+
+
+    def make_hit(self):
+        '''
+        This will change state of this brick, to be hitted by the ball.
+        '''
+        self.unhit = False
+
+
+
+    def change_color(self):
+        '''
+        This method will account for changing color of rainbow brick
+        '''
+        if self.unhit == False:
+            return
+        
+        new_hardness = 1 + ((self.break_brick_time+1)%3)
+        if new_hardness == 1:
+            self.break_brick_time=1
+            self.shape = self.initial_shape(Back.WHITE,Style.DIM)
+        elif new_hardness == 2:
+            self.break_brick_time=2
+            self.shape = self.initial_shape(Back.CYAN,Style.BRIGHT)
+        elif new_hardness == 3:
+            self.break_brick_time=3
+            self.shape = self.initial_shape(Back.MAGENTA,Style.BRIGHT)
+        self.draw()
+
+
+
+    def break_brick(self):
+        '''
+        This will make bricks break basically clear the frame.
+        '''
+        if self.unhit:
+            return
+        
+        if self.break_brick_time==3:
+            self.break_brick_time -= 1
+            self.shape = self.initial_shape(Back.CYAN,Style.BRIGHT)
+            self.draw()
+
+        elif self.break_brick_time==2:
+            self.break_brick_time -= 1
+            self.shape = self.initial_shape(Back.WHITE,Style.DIM)
+            self.draw()
+
+        elif self.break_brick_time==1:
+            self.break_brick_time -= 1
+            self.frame.clear_frame_area(self.point,self.dimension)
+            self.frame.status.add_score(BASICSCOREINCREMENT)
