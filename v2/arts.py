@@ -1,3 +1,4 @@
+from constants import MAXSTAGE
 from colorama import Fore,Style
 import os
 import sys
@@ -147,8 +148,8 @@ def show_result(stat_dict):
     sys.stdin.flush()
     os.system('tput reset')
     st = stat_dict['STAGE']
-    if stat_dict['STAGE']==4:
-        st = 3
+    if stat_dict['STAGE']>MAXSTAGE:
+        st = MAXSTAGE
     print_art(GAMECOMPLETED,Fore.GREEN)
     print(Fore.BLUE,Style.BRIGHT)
     print("\tXXXXXXXXXXXXXXXXXXXXXXXX")

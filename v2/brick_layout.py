@@ -1,5 +1,5 @@
 from random import randint
-from brick import OneUnitBrick, TwoUnitBrick, ThreeUnitBrick, UnbreakableBrick, ExplodingBrick
+from brick import OneUnitBrick, RainbowBrick, TwoUnitBrick, ThreeUnitBrick, UnbreakableBrick, ExplodingBrick
 from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, LAYOUTHEIGHT, LAYOUTWIDTH, LAYOUTXOFFSET, LAYOUTYOFFSET, Point
 from frame import Frame
 
@@ -94,6 +94,8 @@ class BrickLayout:
                     self.total_bricks -= 1
                 elif brick_type==5:
                     brick_matrix[row].append(ExplodingBrick(brick_point,frame))
+                elif brick_type==6:
+                    brick_matrix[row].append(RainbowBrick(brick_point,frame))
                 else:
                     self.total_bricks -= 1
         return brick_matrix
@@ -122,9 +124,57 @@ class BrickLayout:
         '''
         self.total_bricks -= 1
 
+    
+
+    def change_rainbow_brick_color(self):
+        '''
+        function provides a method to change the color
+        of every rainbow brick in the current layout.
+        '''
+        for row in range(len(self.brick_matrix)):
+            for cell in range(len(self.brick_matrix[row])):
+                self.brick_matrix[row][cell].change_color()
+
 
 
 class LayoutStage1(BrickLayout):
+    '''
+    BrickLayout for stage
+    '''
+    def __init__(self,frame: Frame):
+        '''
+        constructor for this class
+        '''
+        self.frame = frame
+        super().__init__(self.frame)
+        self.give_shape()
+        self.brick_matrix = self.make_brick_matrix(self.frame)
+
+
+
+    def give_shape(self):
+        '''
+        This function is from the parrent class.
+        Now overriding it to give 
+        '''
+        for r in range(len(self.location_n_type_matrix)):
+            for c in range(len(self.location_n_type_matrix[r])):
+                if r==len(self.location_n_type_matrix)-1:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,6)
+                elif r==0:
+                    RN = randint(1,100)%2
+                    if RN==0:
+                        RN=3
+                    self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,RN)
+                else:
+                    self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(2,4))
+                    if (r+c)%2:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
+                        self.brick_matrix[r][c].remove_brick()
+
+
+
+class LayoutStage2(BrickLayout):
     '''
     BrickLayout for stage
     '''
@@ -161,7 +211,7 @@ class LayoutStage1(BrickLayout):
 
 
 
-class LayoutStage2(BrickLayout):
+class LayoutStage3(BrickLayout):
     '''
     BrickLayout for stage2
     '''
@@ -195,7 +245,7 @@ class LayoutStage2(BrickLayout):
 
 
 
-class LayoutStage3(BrickLayout):
+class LayoutStage4(BrickLayout):
     '''
     BrickLayout for stage3
     '''
@@ -238,5 +288,7 @@ def select_layout(stage: int,frame: Frame):
         return LayoutStage1(frame)
     elif stage==2:
         return LayoutStage2(frame)
-    else:
+    elif stage==3:
         return LayoutStage3(frame)
+    else:
+        return LayoutStage4(frame)

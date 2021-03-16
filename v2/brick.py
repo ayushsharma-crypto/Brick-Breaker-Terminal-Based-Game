@@ -66,6 +66,15 @@ class SingleBrick:
         This will remove the bricks.
         '''
         self.frame.clear_frame_area(self.point,self.dimension)
+    
+    
+    
+    def change_color(self):
+        '''
+        This method will account for changing color of rainbow brick
+        '''
+        pass
+
 
 
 class OneUnitBrick(SingleBrick):
@@ -245,6 +254,7 @@ class RainbowBrick(OneUnitBrick):
         This will make bricks break basically clear the frame.
         '''
         if self.unhit:
+            self.make_hit()
             return
         
         if self.break_brick_time==3:
