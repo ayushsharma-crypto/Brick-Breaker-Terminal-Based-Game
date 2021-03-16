@@ -1,6 +1,7 @@
 from random import randint
+import time
 from brick import OneUnitBrick, RainbowBrick, TwoUnitBrick, ThreeUnitBrick, UnbreakableBrick, ExplodingBrick
-from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, LAYOUTHEIGHT, LAYOUTWIDTH, LAYOUTXOFFSET, LAYOUTYOFFSET, Point
+from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, LAYOUTHEIGHT, LAYOUTWIDTH, LAYOUTXOFFSET, LAYOUTYOFFSET, Point, SHIFTDOWN
 from frame import Frame
 
 
@@ -34,11 +35,34 @@ class BrickLayout:
         '''
         self.frame = frame
         self.total_bricks = 0
+        self.shift_down = SHIFTDOWN
         self.point = Point(LAYOUTXOFFSET,LAYOUTYOFFSET)
         self.dimension = Dimension(LAYOUTWIDTH,LAYOUTHEIGHT)
         self.location_n_type_matrix = self.generate_location_n_type_matrix()
         self.brick_matrix = self.make_brick_matrix(self.frame)
+        # self.lowermost = self.get_lowermost_layout_point()
+
+
     
+    def get_lowermost_layout_point():
+        '''
+        This function will return the lowest point in the brick-layout
+        from the remaining brick present on th screen.
+        '''
+
+
+    def update_all_brick_location(self):
+        '''
+        This method will account for moving all the bricks down
+        by amount=self.shift_down
+        '''
+        for row in range(len(self.brick_matrix)):
+            orow = len(self.brick_matrix)-1-row
+            for cell in range(len(self.brick_matrix[orow])):
+                self.brick_matrix[orow][cell].move_down(self.shift_down)
+                # print("orow => ",orow, " cell=> ",cell)
+        time.sleep(3)
+
 
 
     def generate_location_n_type_matrix(self):
@@ -137,7 +161,7 @@ class BrickLayout:
 
 
 
-class LayoutStage1(BrickLayout):
+class LayoutStage2(BrickLayout):
     '''
     BrickLayout for stage
     '''
@@ -174,7 +198,7 @@ class LayoutStage1(BrickLayout):
 
 
 
-class LayoutStage2(BrickLayout):
+class LayoutStage1(BrickLayout):
     '''
     BrickLayout for stage
     '''

@@ -23,6 +23,7 @@ class SingleBrick:
         self.dimension = Dimension(BRICKWIDTH,BRICKHEIGHT)
         self.shape = self.initial_shape(Back.WHITE,Style.DIM)
         self.frame = frame
+        self.broken = False
 
 
 
@@ -46,7 +47,8 @@ class SingleBrick:
         '''
         Render ball on the base Frame Paddle
         '''
-        self.frame.update_frame(self.point, self.shape, self.dimension)
+        if self.broken==False:
+            self.frame.update_frame(self.point, self.shape, self.dimension)
 
 
 
@@ -58,6 +60,7 @@ class SingleBrick:
             self.break_brick_time -= 1
             self.frame.clear_frame_area(self.point,self.dimension)
             self.frame.status.add_score(BASICSCOREINCREMENT)
+            self.broken = True
 
 
 
@@ -66,6 +69,7 @@ class SingleBrick:
         This will remove the bricks.
         '''
         self.frame.clear_frame_area(self.point,self.dimension)
+        self.broken = True
     
     
     
@@ -74,6 +78,26 @@ class SingleBrick:
         This method will account for changing color of rainbow brick
         '''
         pass
+    
+    
+    def move_down(self,amount):
+        '''
+        This method will account for moving the brick down by amount
+        '''
+        self.frame.clear_frame_area(self.point,self.dimension)
+        new_point = Point(self.point.x,self.point.y+amount)
+        self.point = new_point
+        if self.broken==False:
+            self.frame.update_frame(new_point, self.shape, self.dimension)
+        else:
+            brick_row = []
+            for i in range(BRICKWIDTH):
+                brick_row.append("")
+            final_shape = []
+            for i in range(BRICKHEIGHT):
+                final_shape.append(brick_row)
+            
+            self.frame.update_frame(new_point, final_shape, self.dimension)
 
 
 
@@ -117,6 +141,7 @@ class TwoUnitBrick(OneUnitBrick):
             self.break_brick_time -= 1
             self.frame.clear_frame_area(self.point,self.dimension)
             self.frame.status.add_score(BASICSCOREINCREMENT)
+            self.broken = True
 
 
 
@@ -152,6 +177,7 @@ class ThreeUnitBrick(OneUnitBrick):
         elif self.break_brick_time==1:
             self.break_brick_time -= 1
             self.frame.clear_frame_area(self.point,self.dimension)
+            self.broken = True
             self.frame.status.add_score(BASICSCOREINCREMENT)
 
 
@@ -238,6 +264,7 @@ class RainbowBrick(OneUnitBrick):
         new_hardness = 1 + ((self.break_brick_time+1)%3)
         if new_hardness == 1:
             self.break_brick_time=1
+            self.broken = True
             self.shape = self.initial_shape(Back.WHITE,Style.DIM)
         elif new_hardness == 2:
             self.break_brick_time=2
