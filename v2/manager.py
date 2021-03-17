@@ -38,7 +38,6 @@ class Manager:
         self.ball.self_move()
         self.user_input()
         self.brick_layout.change_rainbow_brick_color()
-        self.brick_layout.update_all_brick_location()
         if self.brick_layout.get_total_brick()==0:
             self.game_status.stage_up()
 

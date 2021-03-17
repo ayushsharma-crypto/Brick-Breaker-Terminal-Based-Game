@@ -92,7 +92,7 @@ class SingleBrick:
         else:
             brick_row = []
             for i in range(BRICKWIDTH):
-                brick_row.append("")
+                brick_row.append(" ")
             final_shape = []
             for i in range(BRICKHEIGHT):
                 final_shape.append(brick_row)

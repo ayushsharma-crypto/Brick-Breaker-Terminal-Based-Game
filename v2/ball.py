@@ -312,7 +312,7 @@ class Ball:
             for i in range(len(BRICK_TYPE_ARRAY)):
                 if cell_value == BRICK_TYPE_ARRAY[i]:
                     bm = self.brick_layout.get_brick_matrix()
-                    row_num = (coy-LAYOUTYOFFSET)//(BRICKHEIGHT+1)
+                    row_num = (coy-self.brick_layout.point.y)//(BRICKHEIGHT+1)
                     for brick in bm[row_num]:
                         if (brick.point.x<=cox) and (brick.point.x+BRICKWIDTH>cox):
                             if (i == 0):
@@ -323,6 +323,7 @@ class Ball:
                             else:
                                 brick.break_brick()
                             break
+                    self.brick_layout.update_all_brick_location()
                     break
 
 

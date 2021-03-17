@@ -1,9 +1,10 @@
+from math import trunc
 from random import randint
 import time
 from brick import OneUnitBrick, RainbowBrick, TwoUnitBrick, ThreeUnitBrick, UnbreakableBrick, ExplodingBrick
-from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, LAYOUTHEIGHT, LAYOUTWIDTH, LAYOUTXOFFSET, LAYOUTYOFFSET, Point, SHIFTDOWN
+from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, FRAMEHEIGHT, LAYOUTHEIGHT, LAYOUTWIDTH, LAYOUTXOFFSET, LAYOUTYOFFSET, Point, SHIFTDOWN, SHIFTDOWNSTARTAFTER
 from frame import Frame
-
+from arts import show_result
 
 
 class LocationType:
@@ -35,20 +36,35 @@ class BrickLayout:
         '''
         self.frame = frame
         self.total_bricks = 0
-        self.shift_down = SHIFTDOWN
         self.point = Point(LAYOUTXOFFSET,LAYOUTYOFFSET)
         self.dimension = Dimension(LAYOUTWIDTH,LAYOUTHEIGHT)
         self.location_n_type_matrix = self.generate_location_n_type_matrix()
         self.brick_matrix = self.make_brick_matrix(self.frame)
-        # self.lowermost = self.get_lowermost_layout_point()
+        self.shift_down = SHIFTDOWN
+        self.shift_down_after = SHIFTDOWNSTARTAFTER
+        self.formed_time = time.time()
+        self.lowermost = self.get_lowermost_layout_point()
 
 
     
-    def get_lowermost_layout_point():
+    def get_lowermost_layout_point(self):
         '''
         This function will return the lowest point in the brick-layout
         from the remaining brick present on th screen.
         '''
+        flag = False
+        lowermost = self.point.y
+        for row in range(len(self.brick_matrix)):
+            if flag:
+                break
+            orow = len(self.brick_matrix)-1-row
+            for cell in range(len(self.brick_matrix[orow])):
+                if self.brick_matrix[orow][cell].broken == False:
+                    flag = True
+                    lowermost = self.brick_matrix[orow][cell].point.y + BRICKHEIGHT
+                    break
+        return lowermost
+
 
 
     def update_all_brick_location(self):
@@ -56,12 +72,19 @@ class BrickLayout:
         This method will account for moving all the bricks down
         by amount=self.shift_down
         '''
-        for row in range(len(self.brick_matrix)):
-            orow = len(self.brick_matrix)-1-row
-            for cell in range(len(self.brick_matrix[orow])):
-                self.brick_matrix[orow][cell].move_down(self.shift_down)
-                # print("orow => ",orow, " cell=> ",cell)
-        time.sleep(3)
+        if (time.time() - self.formed_time) > self.shift_down_after:
+            self.point = Point(self.point.x,self.point.y+SHIFTDOWN)
+            for row in range(len(self.brick_matrix)):
+                orow = len(self.brick_matrix)-1-row
+                for cell in range(len(self.brick_matrix[orow])):
+                    # print("Moving down")
+                    self.brick_matrix[orow][cell].move_down(self.shift_down)
+            print(self.get_lowermost_layout_point())
+            time.sleep(2)
+            if self.get_lowermost_layout_point() > (FRAMEHEIGHT-5):
+                # self.frame.status.add_kill()
+                show_result(self.frame.status.ret_status())
+                self.frame.status.start_game()
 
 
 
