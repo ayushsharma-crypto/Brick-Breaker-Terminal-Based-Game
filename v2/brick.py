@@ -1,3 +1,4 @@
+import time
 from frame import Frame
 from constants import BASICSCOREINCREMENT, BRICKHEIGHT, BRICKWIDTH, Dimension, Point
 from colorama import Back,Style
@@ -264,7 +265,6 @@ class RainbowBrick(OneUnitBrick):
         new_hardness = 1 + ((self.break_brick_time+1)%3)
         if new_hardness == 1:
             self.break_brick_time=1
-            self.broken = True
             self.shape = self.initial_shape(Back.WHITE,Style.DIM)
         elif new_hardness == 2:
             self.break_brick_time=2
