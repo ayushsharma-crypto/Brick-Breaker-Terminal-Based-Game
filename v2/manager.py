@@ -40,6 +40,7 @@ class Manager:
         self.brick_layout.change_rainbow_brick_color()
         self.brick_layout.refresh_layout()
         self.ball.float_power_up()
+        self.paddle.draw()
         if self.brick_layout.get_total_brick()==0:
             self.game_status.stage_up()
 

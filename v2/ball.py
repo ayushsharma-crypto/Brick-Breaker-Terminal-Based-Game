@@ -1,3 +1,4 @@
+from colorama.ansi import Back
 from powerup import PowerUp
 from brick import BRICK_TYPE_ARRAY
 from paddle import Paddle
@@ -12,6 +13,9 @@ import time
 
 class Ball:
     powerup = [] # all the active powerups
+    powerupcolor = [
+        f"{Back.RED}{Fore.WHITE}{Style.BRIGHT}1{Style.RESET_ALL}",
+    ]
 
     def __init__(self,frame: Frame,paddle: Paddle,brick_layout):
         '''
@@ -124,6 +128,16 @@ class Ball:
 
 
 
+    def power_color(self,py,px):
+        '''
+        Says if the object in power up
+        '''
+        if self.frame.current_frame[py][px] in self.powerupcolor:
+            return True
+        return False
+
+
+
     def automatic_move_x(self):
         '''
         The is function will automatically move not-stick
@@ -131,29 +145,33 @@ class Ball:
         and rebound after colliding with obstacle elastically
         Assume a ball of shape like `a`,`#`
         '''
-        if self.frame.current_frame[self.point.y][self.point.x-1]!=" " and self.frame.current_frame[self.point.y][self.point.x+1]!=" ":
+        if (self.frame.current_frame[self.point.y][self.point.x-1]!=" " and 
+        self.frame.current_frame[self.point.y][self.point.x+1]!=" " and
+         not self.power_color(self.point.y,self.point.x-1) and
+         not self.power_color(self.point.y,self.point.x+1)
+         ):
             return self.point.x
 
         if self.direction_x==False:
-            if self.frame.current_frame[self.point.y][self.point.x-1]!=" ":
+            if self.frame.current_frame[self.point.y][self.point.x-1]!=" " and not self.power_color(self.point.y,self.point.x-1):
                 self.catch_obstacle(self.point.x-1,self.point.y)
                 self.direction_x = True
                 return self.automatic_move_x()
             else:
                 for i in range(1,self.speedx+1):
-                    if (self.point.x-i>=0)and(self.frame.current_frame[self.point.y][self.point.x-i]!=" "):
+                    if (self.point.x-i>=0)and(self.frame.current_frame[self.point.y][self.point.x-i]!=" ") and not self.power_color(self.point.y,self.point.x-i):
                         return self.point.x-i+1
                 return self.point.x-self.speedx
         
         else:
-            if self.frame.current_frame[self.point.y][self.point.x+1]!=" ":
+            if self.frame.current_frame[self.point.y][self.point.x+1]!=" " and not self.power_color(self.point.y,self.point.x+1):
                 self.catch_obstacle(self.point.x+self.dimension.width-1+1,self.point.y)
                 self.direction_x = False
                 return self.automatic_move_x()
             else: 
                 for i in range(1,self.speedx+1):
-                    if (self.point.x+i<FRAMEWIDTH) and (self.frame.current_frame[self.point.y][self.point.x+i]!=" "):
-                        return self.point.x+i-1         
+                    if (self.point.x+i<FRAMEWIDTH) and (self.frame.current_frame[self.point.y][self.point.x+i]!=" ") and (not self.power_color(self.point.y,self.point.x+i)):
+                        return self.point.x+i-1
                 return self.point.x+self.speedx
 
 
@@ -166,27 +184,31 @@ class Ball:
         and rebound after colliding with obstacle elastically
         Assume a ball of shape like `@`,`#`
         '''
-        if self.frame.current_frame[self.point.y+1][self.point.x]!=" " and self.frame.current_frame[self.point.y-1][self.point.x]!=" ":
+        if (self.frame.current_frame[self.point.y+1][self.point.x]!=" " and 
+        self.frame.current_frame[self.point.y-1][self.point.x]!=" " and
+        not self.power_color(self.point.y+1,self.point.x) and
+        not self.power_color(self.point.y-1,self.point.x)
+        ):
             return self.point.y
 
         if self.direction_y==False:
-            if self.frame.current_frame[self.point.y+1][self.point.x]!=" ":
+            if self.frame.current_frame[self.point.y+1][self.point.x]!=" " and  not self.power_color(self.point.y+1,self.point.x):
                 self.catch_obstacle(self.point.x,self.point.y+1)
                 self.direction_y = True
                 return self.automatic_move_y()
             else:
                 for j in range(1,self.speedy+1):
-                    if self.frame.current_frame[self.point.y+j][self.point.x]!=" ":
+                    if self.frame.current_frame[self.point.y+j][self.point.x]!=" " and  not self.power_color(self.point.y+j,self.point.x) :
                         return self.point.y+j-1
                 return self.point.y+self.speedy
         else:
-            if self.frame.current_frame[self.point.y-1][self.point.x]!=" ":
+            if self.frame.current_frame[self.point.y-1][self.point.x]!=" " and  not self.power_color(self.point.y-1,self.point.x):
                 self.catch_obstacle(self.point.x,self.point.y-1)
                 self.direction_y = False
                 return self.automatic_move_y()
             else:
                 for j in range(1,self.speedy+1):
-                    if self.frame.current_frame[self.point.y-j][self.point.x]!=" ":
+                    if self.frame.current_frame[self.point.y-j][self.point.x]!=" " and  not self.power_color(self.point.y-j,self.point.x) :
                         return self.point.y-j+1
                 return self.point.y-self.speedy
 

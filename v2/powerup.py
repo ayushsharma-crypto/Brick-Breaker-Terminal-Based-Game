@@ -1,6 +1,7 @@
+from paddle import Paddle
 import time
 from colorama.ansi import Back, Fore, Style
-from constants import BALLSTEPTP, Dimension, FRAMEHEIGHT, FRAMEWIDTH, PADDLEHEIGHT, POWERUPGRAVITY, POWERUPWIDTH, Point
+from constants import BALLSTEPTP, Dimension, FRAMEHEIGHT, FRAMEWIDTH, PADDLEHEIGHT, POWERUPGRAVITY, POWERUPGRAVITYTP, POWERUPWIDTH, Point
 from frame import Frame
 
 POWER_UP_ARRAY = []
@@ -24,7 +25,11 @@ class PowerUp:
         self.display = True
         self.toc = time.time()
         self.tic = time.time()
+        self.gtoc = time.time()
+        self.gtic = time.time()
+        self.gravityTP = POWERUPGRAVITYTP
         self.skip_iteration_tp = BALLSTEPTP
+        self.flag = 0
         self.draw()
 
     
@@ -132,9 +137,6 @@ class PowerUp:
 
         new_y=self.movey()
         new_x=self.movex()
-
-        # print("new_x = ",new_x," new_y = ",new_y)
-        # time.sleep(2)
         
         if self.check_paddle_collision(new_x,new_y) or self.check_lost(new_y):
             self.remove_power_up()
@@ -146,12 +148,29 @@ class PowerUp:
         return True
 
 
+    
+    def gravity_effect(self):
+        '''
+        Will responsible for gravity effect n power ups.
+        '''
+        self.gtoc = time.time()
+        if self.gtoc-self.gtic>self.gravityTP:
+            self.gtic = self.gtoc
+            if self.directiony:
+                if (self.flag==3)and(self.speedy<=self.gravity):
+                    self.directiony = False
+                else:
+                    self.flag += 1
+            
+
+
 
     def self_move(self):
         '''
         The is function will automatically move powerup
         after certain time-interval
         '''
+        self.gravity_effect()
         self.toc = time.time()
         if self.toc -self.tic >self.skip_iteration_tp:
             self.tic =self.toc
