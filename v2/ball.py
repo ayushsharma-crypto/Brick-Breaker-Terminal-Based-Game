@@ -1,3 +1,4 @@
+from shooting_paddle import ShootingPaddle
 from colorama.ansi import Back
 from powerup import PowerUp
 from brick import BRICK_TYPE_ARRAY
@@ -12,7 +13,6 @@ import time
 
 
 class Ball:
-    powerup = [] # all the active powerups
     powerupcolor = [
         f"{Back.RED}{Fore.WHITE}{Style.BRIGHT}1{Style.RESET_ALL}",
     ]
@@ -42,6 +42,7 @@ class Ball:
         self.direction_x = bool(rm.getrandbits(1))
         self.direction_y = True
         self.draw()
+        self.powerup = [] # all the active powerups
 
 
 
@@ -345,7 +346,7 @@ class Ball:
                                 brick.break_brick()
                                 self.brick_layout.decrease_total_brick()
                                 if (randint(1,10) < (10*POWERUPPROB)) and not brick.rainbow:
-                                    self.powerup.append(PowerUp(self,self.frame,self.paddle))
+                                    self.powerup.append(ShootingPaddle(self,self.frame,self.paddle))
                             elif i == 4:
                                 self.initiate_chain_reaction(row_num,brick)
                             else:
@@ -597,6 +598,8 @@ class Ball:
         self.shape = [[" "," "," "]]
         for pu in self.powerup:
             pu.remove_power_up()
+            pu.lost_active_power_up()
+        self.powerup = []
         self.re_draw(self.point,self.shape,self.dimension)
         self.__init__(self.frame,self.paddle,self.brick_layout)
         return True

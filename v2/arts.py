@@ -55,17 +55,17 @@ GAMEINSTRUCTION =[
     " |                                           |",
     " | Press d or D to move paddle right         |",
     " |                                           |",
-    " | Press p or P to move change ball shape    |",
+    " | Press p or P to change ball shape         |",
     " |                                           |",
     " | Total 3 lives                             |",
     " |                                           |",
-    " | Total 3 stages or level                   |",
+    " | Total 5 stages or level                   |",
     " |                                           |",
     " | Score +5 when a brick gto broke.          |",
     " |                                           |",
-    " | Total 5 different Bricks type.            |",
+    " | Total 6 different Bricks type.            |",
     " |                                           |",
-    " | README for more info.                     |",
+    " | Refer README for more info.               |",
     " |___________________________________________|"
 ]
 

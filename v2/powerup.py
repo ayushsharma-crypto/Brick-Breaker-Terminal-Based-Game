@@ -10,7 +10,7 @@ class PowerUp:
     '''
     A class for various power implementation.
     '''
-    def __init__(self,ball,frame: Frame,paddle):
+    def __init__(self,ball,frame: Frame,paddle,activetime):
         self.ball = ball
         self.frame = frame
         self.point = ball.point
@@ -30,6 +30,9 @@ class PowerUp:
         self.gravityTP = POWERUPGRAVITYTP
         self.skip_iteration_tp = BALLSTEPTP
         self.flag = 0
+        self.active = False
+        self.active_time = activetime
+        self.atic = time.time()
         self.draw()
 
     
@@ -63,6 +66,14 @@ class PowerUp:
         self.point = new_point
         self.shape = new_shape
         self.dimension = new_dimension
+
+    
+    def power_up_start(self):
+        '''
+        This method just made for getting override in
+        child classes.
+        '''
+        pass
             
 
 
@@ -71,8 +82,9 @@ class PowerUp:
         Checks if the ball was catched by the paddle.
         '''
         if self.frame.current_frame[new_y][new_x] == self.paddle.shape[0][0]:
+            self.active = True
+            self.atic = time.time()
             return True
-            # @TODO : Work with powerup
         else:
             return False
             
@@ -124,7 +136,6 @@ class PowerUp:
             else:
                 return self.point.y-self.speedy
         else:
-            # @TODO : Gravity effeect and paddle collision
             return self.point.y+self.speedy
 
 
@@ -170,11 +181,14 @@ class PowerUp:
         The is function will automatically move powerup
         after certain time-interval
         '''
+        self.power_up_start()
         self.gravity_effect()
         self.toc = time.time()
         if self.toc -self.tic >self.skip_iteration_tp:
             self.tic =self.toc
             self.automatic_move()
+            if (self.active) and (self.toc - self.atic > self.active_time):
+                self.active = False
         else:
             pass
 
@@ -187,3 +201,12 @@ class PowerUp:
         self.display = False
         self.shape = [[" "]]
         self.re_draw(self.point,self.shape,self.dimension)
+
+
+    
+    def lost_active_power_up(self):
+        '''
+        Method will lost all the active power up
+        if a life is lost.
+        '''
+        self.active = False
