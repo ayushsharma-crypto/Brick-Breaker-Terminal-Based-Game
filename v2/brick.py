@@ -214,6 +214,7 @@ class UnbreakableBrick(SingleBrick):
         exploded due to chain reaction.
         '''
         self.break_brick_time = 0
+        self.broken = True
         self.frame.clear_frame_area(self.point,self.dimension)
 
 
