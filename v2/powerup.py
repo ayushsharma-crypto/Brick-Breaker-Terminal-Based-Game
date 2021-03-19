@@ -10,7 +10,8 @@ class PowerUp:
     '''
     A class for various power implementation.
     '''
-    def __init__(self,ball,frame: Frame,paddle,activetime):
+    def __init__(self,ball,frame: Frame,paddle,activetime,brick_layout):
+        self.brick_layout = brick_layout
         self.ball = ball
         self.frame = frame
         self.point = ball.point

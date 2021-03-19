@@ -1,7 +1,8 @@
+from random import randint
 from brick import BRICK_TYPE_ARRAY
-from math import fabs
+from math import e, fabs
 import time
-from constants import Dimension, Point, SHOOTINGPADDLEACTIVETIME
+from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, POWERUPPROB, Point, SHOOTINGPADDLEACTIVETIME
 from powerup import PowerUp
 from colorama import *
 
@@ -9,8 +10,10 @@ class Bullet():
     '''
     class for bullets
     '''
-    def __init__(self,frame,point):
+    def __init__(self,frame,point,brick_layout,ball):
         self.frame = frame
+        self.ball = ball
+        self.brick_layout = brick_layout
         self.point = Point(point.x,point.y)
         self.dimension = Dimension(1,1)
         self.shape = [[f"{Fore.GREEN}{Style.BRIGHT}|{Style.RESET_ALL}"]]
@@ -34,16 +37,43 @@ class Bullet():
         if self.used==True:
             return
         no = self.frame.current_frame[self.point.y-1][self.point.x]
-        if (self.point.y<=1) or (no in BRICK_TYPE_ARRAY):
-            # print("Striked")
-            # time.sleep(2)
-            # @TODO: Break Brick
+        if self.point.y<=1:
+            self.frame.clear_frame_area(self.point,self.dimension)
+            self.used = True
+        elif (no in BRICK_TYPE_ARRAY):
+            self.break_brick_shoot(self.point.y-1,self.point.x)
             self.frame.clear_frame_area(self.point,self.dimension)
             self.used = True
         else:
             npoint = Point(self.point.x,self.point.y-1)
             self.frame.restore_frame(npoint,self.shape,self.dimension,self.point,self.shape,self.dimension)
             self.point = Point(self.point.x,self.point.y-1)
+    
+
+
+    def break_brick_shoot(self,coy,cox):
+        '''
+        '''
+        cell_value = self.frame.current_frame[coy][cox]
+        for i in range(len(BRICK_TYPE_ARRAY)):
+            if cell_value == BRICK_TYPE_ARRAY[i]:
+                bm = self.brick_layout.get_brick_matrix()
+                row_num = (coy-self.brick_layout.point.y)//(BRICKHEIGHT+1)
+                for brick in bm[row_num]:
+                    if (brick.point.x<=cox) and (brick.point.x+BRICKWIDTH>cox):
+                        if (i == 0):
+                            brick.break_brick()
+                            self.brick_layout.decrease_total_brick()
+                            if (randint(1,10) < (10*POWERUPPROB)) and not brick.rainbow:
+                                self.ball.powerup.append(ShootingPaddle(self.ball,self.frame,self.ball.paddle,self.brick_layout))
+                        elif i == 4:
+                            self.ball.initiate_chain_reaction(row_num,brick)
+                        else:
+                            brick.break_brick()
+                        break
+                self.brick_layout.update_all_brick_location()
+                break
+
 
 
     
@@ -62,11 +92,11 @@ class ShootingPaddle(PowerUp):
     '''
     This is the class for shooting paddle power up.
     '''
-    def __init__(self,ball,frame,paddle):
+    def __init__(self,ball,frame,paddle,brick_layout):
         '''
         constructor for this child class
         '''
-        super().__init__(ball,frame,paddle,SHOOTINGPADDLEACTIVETIME)
+        super().__init__(ball,frame,paddle,SHOOTINGPADDLEACTIVETIME,brick_layout)
         self.shoot_tic = time.time()
         self.timeinterval = 0.5
         self.left_bullets = []
@@ -130,5 +160,5 @@ class ShootingPaddle(PowerUp):
         x= time.time()
         if x - self.shoot_tic > self.timeinterval:
             self.shoot_tic = x
-            self.left_bullets.append(Bullet(self.frame,Point(self.paddle.point.x,self.paddle.point.y-1)))
-            self.right_bullets.append(Bullet(self.frame,Point(self.paddle.point.x+self.paddle.dimension.width,self.paddle.point.y-1)))
+            self.left_bullets.append(Bullet(self.frame,Point(self.paddle.point.x,self.paddle.point.y-1),self.brick_layout,self.ball))
+            self.right_bullets.append(Bullet(self.frame,Point(self.paddle.point.x+self.paddle.dimension.width,self.paddle.point.y-1),self.brick_layout,self.ball))
