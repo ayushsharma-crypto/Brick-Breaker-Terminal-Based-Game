@@ -1,3 +1,4 @@
+from powerup import PowerUp
 from brick import BRICK_TYPE_ARRAY
 from paddle import Paddle
 from frame import Frame
@@ -10,6 +11,7 @@ import time
 
 
 class Ball:
+    powerup = [] # all the active powerups
 
     def __init__(self,frame: Frame,paddle: Paddle,brick_layout):
         '''
@@ -134,23 +136,23 @@ class Ball:
 
         if self.direction_x==False:
             if self.frame.current_frame[self.point.y][self.point.x-1]!=" ":
-                self.direction_x = True
                 self.catch_obstacle(self.point.x-1,self.point.y)
+                self.direction_x = True
                 return self.automatic_move_x()
             else:
                 for i in range(1,self.speedx+1):
-                    if self.frame.current_frame[self.point.y][self.point.x-i]!=" ":
+                    if (self.point.x-i>=0)and(self.frame.current_frame[self.point.y][self.point.x-i]!=" "):
                         return self.point.x-i+1
                 return self.point.x-self.speedx
         
         else:
             if self.frame.current_frame[self.point.y][self.point.x+1]!=" ":
-                self.direction_x = False
                 self.catch_obstacle(self.point.x+self.dimension.width-1+1,self.point.y)
+                self.direction_x = False
                 return self.automatic_move_x()
             else: 
                 for i in range(1,self.speedx+1):
-                    if self.frame.current_frame[self.point.y][self.point.x+i]!=" ":
+                    if (self.point.x+i<FRAMEWIDTH) and (self.frame.current_frame[self.point.y][self.point.x+i]!=" "):
                         return self.point.x+i-1         
                 return self.point.x+self.speedx
 
@@ -169,8 +171,8 @@ class Ball:
 
         if self.direction_y==False:
             if self.frame.current_frame[self.point.y+1][self.point.x]!=" ":
-                self.direction_y = True
                 self.catch_obstacle(self.point.x,self.point.y+1)
+                self.direction_y = True
                 return self.automatic_move_y()
             else:
                 for j in range(1,self.speedy+1):
@@ -179,8 +181,8 @@ class Ball:
                 return self.point.y+self.speedy
         else:
             if self.frame.current_frame[self.point.y-1][self.point.x]!=" ":
-                self.direction_y = False
                 self.catch_obstacle(self.point.x,self.point.y-1)
+                self.direction_y = False
                 return self.automatic_move_y()
             else:
                 for j in range(1,self.speedy+1):
@@ -195,7 +197,6 @@ class Ball:
         '''
         The is function will automatically move not-stick
         ball & rebound after colliding with obstacle elastically
-        Assume a ball of shape like `(@)`,`(#)`
         '''
         if self.stick:
             return False
@@ -225,6 +226,9 @@ class Ball:
         if self.toc -self.tic >self.skip_iteration_tp:
             self.tic =self.toc
             self.automatic_move()
+            for pu in self.powerup:
+                pu.self_move()
+                pu.draw()
         else:
             pass
     
@@ -318,6 +322,8 @@ class Ball:
                             if (i == 0):
                                 brick.break_brick()
                                 self.brick_layout.decrease_total_brick()
+                                if (randint(1,10) < (10*POWERUPPROB)) and not brick.rainbow:
+                                    self.powerup.append(PowerUp(self,self.frame,self.paddle))
                             elif i == 4:
                                 self.initiate_chain_reaction(row_num,brick)
                             else:
@@ -567,6 +573,8 @@ class Ball:
         '''
         self.frame.status.add_kill()
         self.shape = [[" "," "," "]]
+        for pu in self.powerup:
+            pu.remove_power_up()
         self.re_draw(self.point,self.shape,self.dimension)
         self.__init__(self.frame,self.paddle,self.brick_layout)
         return True
@@ -619,3 +627,12 @@ class Ball:
             self.shape = [[" "," "," "]]
             self.re_draw(self.point,self.shape,self.dimension)
             self.__init__(self.frame,self.paddle,self.brick_layout)
+
+
+    
+    def float_power_up(self):
+        '''
+        This function will bring the floating effect on the power ups.
+        '''
+        for pu in self.powerup:
+            pu.draw()

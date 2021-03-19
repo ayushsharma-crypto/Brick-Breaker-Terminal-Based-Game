@@ -1,3 +1,4 @@
+from math import fabs, trunc
 import time
 from frame import Frame
 from constants import BASICSCOREINCREMENT, BRICKHEIGHT, BRICKWIDTH, Dimension, Point
@@ -25,6 +26,7 @@ class SingleBrick:
         self.shape = self.initial_shape(Back.WHITE,Style.DIM)
         self.frame = frame
         self.broken = False
+        self.rainbow = False
 
 
 
@@ -245,6 +247,7 @@ class RainbowBrick(OneUnitBrick):
         '''
         super().__init__(point,frame)
         self.unhit = True
+        self.rainbow = True
         self.draw()
 
 
@@ -284,7 +287,7 @@ class RainbowBrick(OneUnitBrick):
         if self.unhit:
             self.make_hit()
             return
-        
+        self.rainbow = False
         if self.break_brick_time==3:
             self.break_brick_time -= 1
             self.shape = self.initial_shape(Back.CYAN,Style.BRIGHT)
@@ -297,5 +300,6 @@ class RainbowBrick(OneUnitBrick):
 
         elif self.break_brick_time==1:
             self.break_brick_time -= 1
+            self.broken = True
             self.frame.clear_frame_area(self.point,self.dimension)
             self.frame.status.add_score(BASICSCOREINCREMENT)

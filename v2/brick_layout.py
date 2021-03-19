@@ -183,6 +183,12 @@ class BrickLayout:
         for row in range(len(self.brick_matrix)):
             for cell in range(len(self.brick_matrix[row])):
                 self.brick_matrix[row][cell].change_color()
+    
+    def refresh_layout(self):
+        ''''''
+        for row in range(len(self.brick_matrix)):
+            for cell in range(len(self.brick_matrix[row])):
+                self.brick_matrix[row][cell].draw()
 
 
 
