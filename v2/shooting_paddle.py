@@ -1,6 +1,61 @@
+from brick import BRICK_TYPE_ARRAY
+from math import fabs
 import time
-from constants import SHOOTINGPADDLEACTIVETIME
+from constants import Dimension, Point, SHOOTINGPADDLEACTIVETIME
 from powerup import PowerUp
+from colorama import *
+
+class Bullet():
+    '''
+    class for bullets
+    '''
+    def __init__(self,frame,point):
+        self.frame = frame
+        self.point = Point(point.x,point.y)
+        self.dimension = Dimension(1,1)
+        self.shape = [[f"{Fore.GREEN}{Style.BRIGHT}|{Style.RESET_ALL}"]]
+        self.used = False
+        self.draw()
+    
+
+
+    def draw(self):
+        '''
+        Render bullet on the base Frame
+        '''
+        self.frame.update_frame(self.point, self.shape, self.dimension)
+    
+
+
+    def movey(self):
+        '''
+        Moving the bullet
+        '''
+        if self.used==True:
+            return
+        no = self.frame.current_frame[self.point.y-1][self.point.x]
+        if (self.point.y<=1) or (no in BRICK_TYPE_ARRAY):
+            # print("Striked")
+            # time.sleep(2)
+            # @TODO: Break Brick
+            self.frame.clear_frame_area(self.point,self.dimension)
+            self.used = True
+        else:
+            npoint = Point(self.point.x,self.point.y-1)
+            self.frame.restore_frame(npoint,self.shape,self.dimension,self.point,self.shape,self.dimension)
+            self.point = Point(self.point.x,self.point.y-1)
+
+
+    
+    def remove_bullet(self):
+        '''
+        remove bullect from screen
+        '''
+        self.frame.clear_frame_area(self.point,self.dimension)
+        self.used = True
+
+
+
 
 
 class ShootingPaddle(PowerUp):
@@ -12,6 +67,10 @@ class ShootingPaddle(PowerUp):
         constructor for this child class
         '''
         super().__init__(ball,frame,paddle,SHOOTINGPADDLEACTIVETIME)
+        self.shoot_tic = time.time()
+        self.timeinterval = 0.5
+        self.left_bullets = []
+        self.right_bullets = []
     
 
 
@@ -20,7 +79,6 @@ class ShootingPaddle(PowerUp):
         returns the remaining time of the active power up
         '''
         if self.active:
-            print("completed time = ",int(time.time()-self.atic))
             return int(self.active_time-int(time.time()-self.atic))
 
 
@@ -49,7 +107,28 @@ class ShootingPaddle(PowerUp):
                 if i!=already_i:
                     self.ball.powerup[i].active = False
                     self.ball.powerup[already_i].active_time += SHOOTINGPADDLEACTIVETIME
+            
+            self.paddle.add_cannon()
+            self.shoot_bullets()
+
+            for bullet in self.left_bullets:
+                bullet.movey()
+            
+            for bullet  in self.right_bullets:
+                bullet.movey()
 
         
-            print("remaining time = ",self.get_remain_time())
+            print("Shooting Paddle Remaining Time = ",self.get_remain_time())
         return
+
+
+
+    def shoot_bullets(self):
+        '''
+        Shooting the bullet after time-interval
+        '''
+        x= time.time()
+        if x - self.shoot_tic > self.timeinterval:
+            self.shoot_tic = x
+            self.left_bullets.append(Bullet(self.frame,Point(self.paddle.point.x,self.paddle.point.y-1)))
+            self.right_bullets.append(Bullet(self.frame,Point(self.paddle.point.x+self.paddle.dimension.width,self.paddle.point.y-1)))

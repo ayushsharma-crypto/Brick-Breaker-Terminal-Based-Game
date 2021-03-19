@@ -133,7 +133,7 @@ class Ball:
         '''
         Says if the object in power up
         '''
-        if self.frame.current_frame[py][px] in self.powerupcolor:
+        if (self.frame.current_frame[py][px] in self.powerupcolor) or ( self.frame.current_frame[py][px]==f"{Fore.GREEN}{Style.BRIGHT}|{Style.RESET_ALL}"):
             return True
         return False
 
@@ -599,7 +599,13 @@ class Ball:
         for pu in self.powerup:
             pu.remove_power_up()
             pu.lost_active_power_up()
+            for bullet in pu.left_bullets:
+                bullet.remove_bullet()
+            for bullet in pu.right_bullets:
+                bullet.remove_bullet()
         self.powerup = []
+        self.frame.clear_frame_area(self.paddle.point,self.paddle.dimension)
+        self.paddle.__init__(self.frame)
         self.re_draw(self.point,self.shape,self.dimension)
         self.__init__(self.frame,self.paddle,self.brick_layout)
         return True

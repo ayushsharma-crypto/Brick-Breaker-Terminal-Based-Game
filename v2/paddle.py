@@ -1,3 +1,5 @@
+import time
+from colorama.ansi import Fore
 from frame import Frame
 from random import randint
 from colorama import Back,Style
@@ -21,6 +23,7 @@ class Paddle:
 
 
     def initial_shape(self,width,height):
+        pass
         shape =  [ [ "" for i in range(width) ] for j in range(height) ]
         for h in range(height):
             for w in range(width):
@@ -30,6 +33,7 @@ class Paddle:
 
 
     def shrink_shape(self):
+        pass
         shape =  [ [ "" for i in range(SHRINKPADDLE) ] for j in range(PADDLEHEIGHT) ]
         for h in range(PADDLEHEIGHT):
             for w in range(SHRINKPADDLE):
@@ -40,6 +44,7 @@ class Paddle:
 
 
     def expand_shape(self):
+        pass
         shape =  [ [ "" for i in range(EXPANDPADDLE) ] for j in range(PADDLEHEIGHT) ]
         for h in range(PADDLEHEIGHT):
             for w in range(EXPANDPADDLE):
@@ -50,6 +55,7 @@ class Paddle:
 
 
     def default_shape(self):
+        pass
         shape =  [ [ "" for i in range(PADDLEWIDTH) ] for j in range(PADDLEHEIGHT) ]
         for h in range(PADDLEHEIGHT):
             for w in range(PADDLEWIDTH):
@@ -116,3 +122,26 @@ class Paddle:
         self.frame.restore_frame(new_point,self.shape,self.dimension,self.point,self.shape,self.dimension)
         self.point = new_point
         return True
+
+
+        
+    def add_cannon(self):
+        r1 = [ self.shape[0][0] for i in range(self.dimension.width)]        
+        r2 = [ " " for i in range(self.dimension.width)]        
+        r2[0] = f"{Fore.GREEN}{Style.BRIGHT}^{Style.RESET_ALL}"
+        r2[-1] = f"{Fore.GREEN}{Style.BRIGHT}^{Style.RESET_ALL}"
+        r3 = [ " " for i in range(self.dimension.width)]        
+        r3[0] = f"{Fore.GREEN}{Style.BRIGHT}^{Style.RESET_ALL}"
+        r3[-1] = f"{Fore.GREEN}{Style.BRIGHT}^{Style.RESET_ALL}"
+        self.shape = [r1,r2, r3]
+        self.dimension = Dimension(self.dimension.width,3)
+        self.draw()
+
+
+        
+    def remove_cannon(self):
+        old_shape = self.shape
+        old_d = self.dimension
+        self.shape = self.initial_shape(PADDLEWIDTH,PADDLEHEIGHT)
+        self.dimension = Dimension(PADDLEWIDTH,PADDLEHEIGHT)
+        self.frame.restore_frame(self.point,self.shape,self.dimension,self.point,old_shape,old_d)

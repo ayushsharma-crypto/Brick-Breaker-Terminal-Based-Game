@@ -189,6 +189,11 @@ class PowerUp:
             self.automatic_move()
             if (self.active) and (self.toc - self.atic > self.active_time):
                 self.active = False
+                self.paddle.remove_cannon()
+                for bullet in self.left_bullets:
+                    bullet.remove_bullet()
+                for bullet in self.right_bullets:
+                    bullet.remove_bullet()
         else:
             pass
 
