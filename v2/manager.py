@@ -13,6 +13,7 @@ class Manager:
         construct the walls, paddle, ball and frame
         '''
         self.game_status = game_status
+        self.only_once = True
         self.frame = Frame(self.game_status)
         self.paddle = Paddle(self.frame)
         if self.game_status.get_stage()<MAXSTAGE:
@@ -43,6 +44,9 @@ class Manager:
             self.frame.display()
             if (self.game_status.get_stage()==MAXSTAGE):
                 print("UFO HEALTH = ",self.ufo.health,"/",ENEMYHEALTH)
+                if (self.only_once) and (self.ufo.health< 3):
+                    self.brick_layout.__init__(self.frame)
+                    self.only_once = False
         self.ball.self_move()
         self.user_input()
         self.brick_layout.change_rainbow_brick_color()
@@ -50,7 +54,6 @@ class Manager:
         if (self.game_status.get_stage()==MAXSTAGE):
             self.ufo.draw()
         self.ball.float_power_up()
-        # self.paddle.draw()
         if (self.game_status.get_stage()<MAXSTAGE) and (self.brick_layout.get_total_brick()==0):
             self.game_status.stage_up()
         else:
@@ -79,18 +82,18 @@ class Manager:
             quit()
         elif ch1 == 'p' or ch1 =='P':
             self.ball.next_shape()
-        elif ch1 == 'i' or ch1 =='I':
-            self.ball.speedx ==2
-            self.ball.speedy ==2
-        elif ch1 == 'k' or ch1 =='K':
-            self.ball.speedx ==1
-            self.ball.speedy ==1
-        elif ch1 == 'c' or ch1=='C':
-            self.ball.expand_paddle_effect()
-        elif ch1 == 'v' or ch1=='V':
-            self.ball.shrink_paddle_effect()
-        elif ch1 == 'b' or ch1=='B':
-            self.ball.default_paddle_effect()
+        # elif ch1 == 'i' or ch1 =='I':
+        #     self.ball.speedx ==2
+        #     self.ball.speedy ==2
+        # elif ch1 == 'k' or ch1 =='K':
+        #     self.ball.speedx ==1
+            # self.ball.speedy ==1
+        # elif ch1 == 'c' or ch1=='C':
+        #     self.ball.expand_paddle_effect()
+        # elif ch1 == 'v' or ch1=='V':
+        #     self.ball.shrink_paddle_effect()
+        # elif ch1 == 'b' or ch1=='B':
+        #     self.ball.default_paddle_effect()
         elif ch1== ' ':
             self.ball.flip_stick(False)
         elif ch1 == '\\':

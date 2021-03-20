@@ -355,7 +355,8 @@ class Ball:
                             else:
                                 brick.break_brick()
                             break
-                    self.brick_layout.update_all_brick_location()
+                    if (self.frame.status.get_stage()<MAXSTAGE):
+                        self.brick_layout.update_all_brick_location()
                     break
 
 

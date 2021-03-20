@@ -14,7 +14,7 @@ class UFO:
         '''
         self.paddle = paddle
         self.frame = frame
-        self.point = Point(self.paddle.point.x-4,5)
+        self.point = Point(self.paddle.point.x-4,2)
         self.shape = self.initial_shape()
         self.dimension = self.get_dimension()
         self.health = ENEMYHEALTH

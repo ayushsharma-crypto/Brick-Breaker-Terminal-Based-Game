@@ -16,7 +16,7 @@ class Paddle:
         self.shape = self.initial_shape(PADDLEWIDTH,PADDLEHEIGHT)
         self.dimension = Dimension(PADDLEWIDTH,PADDLEHEIGHT)
         self.point = Point(
-            randint(10, FRAMEWIDTH-2*PADDLEWIDTH), 
+            randint(50, FRAMEWIDTH-4*PADDLEWIDTH), 
             randint(FRAMEHEIGHT-5,FRAMEHEIGHT-5)
         )
         self.health = PADDLEHEALTH
