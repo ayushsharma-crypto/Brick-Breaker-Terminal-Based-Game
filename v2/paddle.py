@@ -1,4 +1,5 @@
 import time
+from constants import PADDLEHEALTH
 from colorama.ansi import Fore
 from frame import Frame
 from random import randint
@@ -18,6 +19,7 @@ class Paddle:
             randint(10, FRAMEWIDTH-2*PADDLEWIDTH), 
             randint(FRAMEHEIGHT-5,FRAMEHEIGHT-5)
         )
+        self.health = PADDLEHEALTH
         self.draw()
     
 

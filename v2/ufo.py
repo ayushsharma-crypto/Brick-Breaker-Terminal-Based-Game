@@ -98,6 +98,6 @@ class UFO:
             return
         
         self.health -= 1
-        if self.health==0:
+        if self.health<=0:
             self.frame.clear_frame_area(self.point,self.dimension)
             self.frame.status.stage_up()

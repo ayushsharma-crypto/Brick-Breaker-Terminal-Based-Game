@@ -359,7 +359,7 @@ class LayoutStage5(BrickLayout):
         for r in range(len(self.location_n_type_matrix)):
             for c in range(len(self.location_n_type_matrix[r])):
                 if r==special_row:
-                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,3))
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,4))
                 else:
                     self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
                     self.brick_matrix[r][c].remove_brick()

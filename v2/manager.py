@@ -1,4 +1,4 @@
-from constants import MAXSTAGE
+from constants import MAXSTAGE,ENEMYHEALTH, PADDLEHEALTH
 from brick_layout import select_layout
 from frame import Frame
 from paddle import Paddle
@@ -41,6 +41,9 @@ class Manager:
         '''
         if flag==True:
             self.frame.display()
+            if (self.game_status.get_stage()==MAXSTAGE):
+                print("UFO HEALTH = ",self.ufo.health,"/",ENEMYHEALTH)
+                print("UFO HEALTH = ",self.paddle.health,"/",PADDLEHEALTH)
         self.ball.self_move()
         self.user_input()
         self.brick_layout.change_rainbow_brick_color()
