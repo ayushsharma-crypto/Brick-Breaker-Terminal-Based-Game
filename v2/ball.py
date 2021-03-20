@@ -348,7 +348,7 @@ class Ball:
                             if (i == 0):
                                 brick.break_brick()
                                 self.brick_layout.decrease_total_brick()
-                                if (randint(1,10) <= (10*POWERUPPROB)) and not brick.rainbow:
+                                if (randint(1,10) <= (10*POWERUPPROB)) and (not brick.rainbow) and (self.frame.status.get_stage()<MAXSTAGE):
                                     self.powerup.append(ShootingPaddle(self,self,self.frame,self.paddle,self.brick_layout))
                             elif i == 4:
                                 self.initiate_chain_reaction(row_num,brick)

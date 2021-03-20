@@ -1,3 +1,4 @@
+from constants import MAXSTAGE
 from brick import BRICK_TYPE_ARRAY
 import time
 from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, POWERUPPROB, Point, SHOOTINGPADDLEACTIVETIME
@@ -68,7 +69,7 @@ class Bullet():
                         if (i == 0):
                             brick.break_brick()
                             self.brick_layout.decrease_total_brick()
-                            if (randint(1,10) <= (10*POWERUPPROB)) and not brick.rainbow:
+                            if (randint(1,10) <= (10*POWERUPPROB)) and (not brick.rainbow) and (self.frame.status.get_stage()<MAXSTAGE):
                                 self.ball.powerup.append(ShootingPaddle(self,self.ball,self.frame,self.ball.paddle,self.brick_layout))
                         elif i == 4:
                             self.ball.initiate_chain_reaction(row_num,brick)

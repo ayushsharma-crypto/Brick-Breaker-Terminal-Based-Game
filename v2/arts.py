@@ -191,4 +191,4 @@ def render_ufo():
     print_art(UFO_SHAPE, Fore.RED)
 
 
-render_ufo()
+# render_ufo()
