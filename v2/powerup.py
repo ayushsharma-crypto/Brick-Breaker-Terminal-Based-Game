@@ -10,19 +10,20 @@ class PowerUp:
     '''
     A class for various power implementation.
     '''
-    def __init__(self,ball,frame: Frame,paddle,activetime,brick_layout):
+    def __init__(self,path,ball,frame: Frame,paddle,activetime,brick_layout):
         self.brick_layout = brick_layout
+        self.path_object = path
         self.ball = ball
         self.frame = frame
-        self.point = ball.point
+        self.point = path.point
         self.paddle = paddle
         self.dimension = Dimension(POWERUPWIDTH,PADDLEHEIGHT)
         self.shape = self.shape_powerup()
         self.gravity = POWERUPGRAVITY
-        self.speedx = ball.speedx
-        self.speedy = ball.speedy
-        self.directionx = ball.direction_x
-        self.directiony = ball.direction_y
+        self.speedx = path.speedx
+        self.speedy = path.speedy
+        self.directionx = path.direction_x
+        self.directiony = path.direction_y
         self.display = True
         self.toc = time.time()
         self.tic = time.time()
@@ -61,7 +62,7 @@ class PowerUp:
 
     def re_draw(self,new_point,new_shape,new_dimension):
         '''
-        Render ball on the base Frame Paddle
+        Render powerup on the base Frame Paddle
         '''
         self.frame.restore_frame(new_point,new_shape,new_dimension,self.point,self.shape,self.dimension)
         self.point = new_point
@@ -80,7 +81,7 @@ class PowerUp:
 
     def check_paddle_collision(self,new_x,new_y):
         '''
-        Checks if the ball was catched by the paddle.
+        Checks if the powerup was catched by the paddle.
         '''
         if self.frame.current_frame[new_y][new_x] == self.paddle.shape[0][0]:
             self.active = True
@@ -93,7 +94,7 @@ class PowerUp:
 
     def check_lost(self,new_y):
         '''
-        Checks if the ball was not catched by the paddle.
+        Checks if the powerup was not catched by the paddle.
         '''
         if new_y  >= FRAMEHEIGHT-1:
             return True

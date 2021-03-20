@@ -3,6 +3,7 @@ import time
 from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, POWERUPPROB, Point, SHOOTINGPADDLEACTIVETIME
 from powerup import PowerUp
 from colorama import *
+from random import randint
 
 class Bullet():
     '''
@@ -16,6 +17,10 @@ class Bullet():
         self.dimension = Dimension(1,1)
         self.shape = [[f"{Fore.GREEN}{Style.BRIGHT}|{Style.RESET_ALL}"]]
         self.used = False
+        self.direction_x = False
+        self.direction_y = True
+        self.speedx = 0
+        self.speedy = 1
         self.draw()
     
 
@@ -53,25 +58,24 @@ class Bullet():
         '''
         '''
         pass
-        # cell_value = self.frame.current_frame[coy][cox]
-        # for i in range(len(BRICK_TYPE_ARRAY)):
-        #     if cell_value == BRICK_TYPE_ARRAY[i]:
-        #         bm = self.brick_layout.get_brick_matrix()
-        #         row_num = (coy-self.brick_layout.point.y)//(BRICKHEIGHT+1)
-        #         for brick in bm[row_num]:
-        #             if (brick.point.x<=cox) and (brick.point.x+BRICKWIDTH>cox):
-        #                 if (i == 0):
-        #                     brick.break_brick()
-        #                     self.brick_layout.decrease_total_brick()
-        #                     if (randint(1,10) < (10*POWERUPPROB)) and not brick.rainbow:
-        #                         self.ball.powerup.append(ShootingPaddle(self.ball,self.frame,self.ball.paddle,self.brick_layout))
-        #                 elif i == 4:
-        #                     self.ball.initiate_chain_reaction(row_num,brick)
-        #                 else:
-        #                     brick.break_brick()
-        #                 break
-        #         self.brick_layout.update_all_brick_location()
-        #         break
+        cell_value = self.frame.current_frame[coy][cox]
+        for i in range(len(BRICK_TYPE_ARRAY)):
+            if cell_value == BRICK_TYPE_ARRAY[i]:
+                bm = self.brick_layout.get_brick_matrix()
+                row_num = (coy-self.brick_layout.point.y)//(BRICKHEIGHT+1)
+                for brick in bm[row_num]:
+                    if (brick.point.x<=cox) and (brick.point.x+BRICKWIDTH>cox):
+                        if (i == 0):
+                            brick.break_brick()
+                            self.brick_layout.decrease_total_brick()
+                            if (randint(1,10) < (10*POWERUPPROB)) and not brick.rainbow:
+                                self.ball.powerup.append(ShootingPaddle(self,self.ball,self.frame,self.ball.paddle,self.brick_layout))
+                        elif i == 4:
+                            self.ball.initiate_chain_reaction(row_num,brick)
+                        else:
+                            brick.break_brick()
+                        break
+                break
 
 
 
@@ -91,11 +95,11 @@ class ShootingPaddle(PowerUp):
     '''
     This is the class for shooting paddle power up.
     '''
-    def __init__(self,ball,frame,paddle,brick_layout):
+    def __init__(self,path,ball,frame,paddle,brick_layout):
         '''
         constructor for this child class
         '''
-        super().__init__(ball,frame,paddle,SHOOTINGPADDLEACTIVETIME,brick_layout)
+        super().__init__(path,ball,frame,paddle,SHOOTINGPADDLEACTIVETIME,brick_layout)
         self.shoot_tic = time.time()
         self.timeinterval = 0.5
         self.left_bullets = []
