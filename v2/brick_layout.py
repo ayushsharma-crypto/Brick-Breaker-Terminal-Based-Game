@@ -5,7 +5,7 @@ from brick import OneUnitBrick, RainbowBrick, TwoUnitBrick, ThreeUnitBrick, Unbr
 from constants import BRICKHEIGHT, BRICKWIDTH, Dimension, FRAMEHEIGHT, LAYOUTHEIGHT, LAYOUTWIDTH, LAYOUTXOFFSET, LAYOUTYOFFSET, Point, SHIFTDOWN, SHIFTDOWNSTARTAFTER
 from frame import Frame
 from arts import show_result
-
+from ufo import UFO
 
 class LocationType:
     '''
@@ -194,7 +194,7 @@ class BrickLayout:
 
 class LayoutStage2(BrickLayout):
     '''
-    BrickLayout for stage
+    BrickLayout for stage2
     '''
     def __init__(self,frame: Frame):
         '''
@@ -231,7 +231,7 @@ class LayoutStage2(BrickLayout):
 
 class LayoutStage1(BrickLayout):
     '''
-    BrickLayout for stage
+    BrickLayout for stage1
     '''
     def __init__(self,frame: Frame):
         '''
@@ -268,7 +268,7 @@ class LayoutStage1(BrickLayout):
 
 class LayoutStage3(BrickLayout):
     '''
-    BrickLayout for stage2
+    BrickLayout for stage3
     '''
     def __init__(self,frame: Frame):
         '''
@@ -302,7 +302,7 @@ class LayoutStage3(BrickLayout):
 
 class LayoutStage4(BrickLayout):
     '''
-    BrickLayout for stage3
+    BrickLayout for stage4
     '''
     def __init__(self,frame: Frame):
         '''
@@ -335,7 +335,38 @@ class LayoutStage4(BrickLayout):
 
 
 
-def select_layout(stage: int,frame: Frame):
+class LayoutStage5(BrickLayout):
+    '''
+    BrickLayout for stage5
+    '''
+    def __init__(self,frame: Frame):
+        '''
+        constructor for this class
+        '''
+        self.frame = frame
+        super().__init__(self.frame)
+        self.give_shape()
+        self.brick_matrix = self.make_brick_matrix(self.frame)
+    
+
+
+    def give_shape(self):
+        '''
+        This function is from the parrent class.
+        Now overriding it to give 
+        '''
+        special_row = randint(len(self.location_n_type_matrix)-1,len(self.location_n_type_matrix)-1)
+        for r in range(len(self.location_n_type_matrix)):
+            for c in range(len(self.location_n_type_matrix[r])):
+                if r==special_row:
+                        self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,randint(1,3))
+                else:
+                    self.location_n_type_matrix[r][c] = LocationType(self.location_n_type_matrix[r][c].place_point,-1)
+                    self.brick_matrix[r][c].remove_brick()
+
+
+
+def select_layout(stage: int,frame: Frame,paddle):
     '''
     returns the layout instance corresponding to the stage
     '''
@@ -345,5 +376,9 @@ def select_layout(stage: int,frame: Frame):
         return LayoutStage2(frame)
     elif stage==3:
         return LayoutStage3(frame)
-    else:
+    elif stage==4:
         return LayoutStage4(frame)
+    else:
+        ly =  LayoutStage5(frame)
+        UFO1 = UFO(paddle,frame)
+        return ly,UFO1

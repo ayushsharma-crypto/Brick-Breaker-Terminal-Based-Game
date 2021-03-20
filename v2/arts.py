@@ -107,6 +107,21 @@ OTHERWISE = [
 ]
 
 
+
+UFO_SHAPE = [
+"                            ",
+"                            ",
+"          //-A-\\\\           ",
+"    ___---=======---___     ",
+"  (=__\\   /.. ..\\   /__=)   ",
+"       ---\\__O__/---        ",
+"                            ",
+"                            ",
+]
+
+
+
+
 def print_art(art: list,color):
     '''
     Just print out the list
@@ -167,3 +182,13 @@ def show_result(stat_dict):
     ch = input()
     if ch != 'r' and ch!='R':
         quit()
+
+
+def render_ufo():
+    '''
+    shows ufo
+    '''
+    print_art(UFO_SHAPE, Fore.RED)
+
+
+render_ufo()

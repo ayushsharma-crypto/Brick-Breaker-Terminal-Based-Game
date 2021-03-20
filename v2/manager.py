@@ -1,3 +1,4 @@
+from constants import MAXSTAGE
 from brick_layout import select_layout
 from frame import Frame
 from paddle import Paddle
@@ -14,7 +15,10 @@ class Manager:
         self.game_status = game_status
         self.frame = Frame(self.game_status)
         self.paddle = Paddle(self.frame)
-        self.brick_layout = select_layout(self.game_status.get_stage(),self.frame)
+        if self.game_status.get_stage()<MAXSTAGE:
+            self.brick_layout = select_layout(self.game_status.get_stage(),self.frame,self.paddle)
+        else:
+            self.brick_layout, self.ufo = select_layout(self.game_status.get_stage(),self.frame,self.paddle)
         self.ball = Ball(self.frame,self.paddle,self.brick_layout)
         self.frame.display()
 
@@ -39,10 +43,14 @@ class Manager:
         self.user_input()
         self.brick_layout.change_rainbow_brick_color()
         self.brick_layout.refresh_layout()
+        if (self.game_status.get_stage()==MAXSTAGE):
+            self.ufo.draw()
         self.ball.float_power_up()
         # self.paddle.draw()
-        if self.brick_layout.get_total_brick()==0:
+        if (self.game_status.get_stage()<MAXSTAGE) and (self.brick_layout.get_total_brick()==0):
             self.game_status.stage_up()
+        else:
+            pass
 
 
 
