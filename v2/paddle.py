@@ -35,35 +35,35 @@ class Paddle:
 
 
     def shrink_shape(self):
-        pass
-        shape =  [ [ "" for i in range(SHRINKPADDLE) ] for j in range(PADDLEHEIGHT) ]
-        for h in range(PADDLEHEIGHT):
-            for w in range(SHRINKPADDLE):
-                shape[h][w] = f"{Back.RED}{Style.BRIGHT} {Style.RESET_ALL}"
+        # pass
+        # shape =  [ [ "" for i in range(SHRINKPADDLE) ] for j in range(PADDLEHEIGHT) ]
+        # for h in range(PADDLEHEIGHT):
+        #     for w in range(SHRINKPADDLE):
+        #         shape[h][w] = f"{Back.RED}{Style.BRIGHT} {Style.RESET_ALL}"
         
-        self.re_draw(self.point,shape,Dimension(SHRINKPADDLE,PADDLEHEIGHT))
+        # self.re_draw(self.point,shape,Dimension(SHRINKPADDLE,PADDLEHEIGHT))
     
 
 
     def expand_shape(self):
         pass
-        shape =  [ [ "" for i in range(EXPANDPADDLE) ] for j in range(PADDLEHEIGHT) ]
-        for h in range(PADDLEHEIGHT):
-            for w in range(EXPANDPADDLE):
-                shape[h][w] = f"{Back.BLUE}{Style.BRIGHT} {Style.RESET_ALL}"
+        # shape =  [ [ "" for i in range(EXPANDPADDLE) ] for j in range(PADDLEHEIGHT) ]
+        # for h in range(PADDLEHEIGHT):
+        #     for w in range(EXPANDPADDLE):
+        #         shape[h][w] = f"{Back.BLUE}{Style.BRIGHT} {Style.RESET_ALL}"
         
-        self.re_draw(self.point,shape,Dimension(EXPANDPADDLE,PADDLEHEIGHT))
+        # self.re_draw(self.point,shape,Dimension(EXPANDPADDLE,PADDLEHEIGHT))
     
 
 
     def default_shape(self):
         pass
-        shape =  [ [ "" for i in range(PADDLEWIDTH) ] for j in range(PADDLEHEIGHT) ]
-        for h in range(PADDLEHEIGHT):
-            for w in range(PADDLEWIDTH):
-                shape[h][w] = f"{Back.GREEN}{Style.BRIGHT} {Style.RESET_ALL}"
+        # shape =  [ [ "" for i in range(PADDLEWIDTH) ] for j in range(PADDLEHEIGHT) ]
+        # for h in range(PADDLEHEIGHT):
+        #     for w in range(PADDLEWIDTH):
+        #         shape[h][w] = f"{Back.GREEN}{Style.BRIGHT} {Style.RESET_ALL}"
         
-        self.re_draw(self.point,shape,Dimension(PADDLEWIDTH,PADDLEHEIGHT))
+        # self.re_draw(self.point,shape,Dimension(PADDLEWIDTH,PADDLEHEIGHT))
     
 
 
