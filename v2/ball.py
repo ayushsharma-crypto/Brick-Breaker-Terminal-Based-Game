@@ -17,10 +17,11 @@ class Ball:
         f"{Back.RED}{Fore.WHITE}{Style.BRIGHT}1{Style.RESET_ALL}",
     ]
 
-    def __init__(self,frame: Frame,paddle: Paddle,brick_layout):
+    def __init__(self,frame: Frame,paddle: Paddle,brick_layout,ufo=-1):
         '''
         constructor of the ball
         '''
+        self.ufo = ufo
         self.frame = frame
         self.paddle = paddle
         self.brick_layout = brick_layout
@@ -334,6 +335,8 @@ class Ball:
         '''
         if self.frame.current_frame[coy][cox] == self.paddle.shape[0][0]:
             self.handle_paddle_collision(cox)
+        elif (self.ufo!=-1) and (self.frame.current_frame[coy][cox] == self.ufo.shape[0][0]):
+            self.ufo.reduce_health()
         else:
             cell_value = self.frame.current_frame[coy][cox]
             for i in range(len(BRICK_TYPE_ARRAY)):

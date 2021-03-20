@@ -17,9 +17,11 @@ class Manager:
         self.paddle = Paddle(self.frame)
         if self.game_status.get_stage()<MAXSTAGE:
             self.brick_layout = select_layout(self.game_status.get_stage(),self.frame,self.paddle)
+            self.ball = Ball(self.frame,self.paddle,self.brick_layout,-1)
         else:
             self.brick_layout, self.ufo = select_layout(self.game_status.get_stage(),self.frame,self.paddle)
-        self.ball = Ball(self.frame,self.paddle,self.brick_layout)
+            self.ball = Ball(self.frame,self.paddle,self.brick_layout,self.ufo)
+
         self.frame.display()
 
         tic = time()        
@@ -64,9 +66,13 @@ class Manager:
         if ch1 == 'a' or ch1 == 'A':
             self.paddle.move_left()
             self.ball.move_with_paddle()
+            if self.game_status.get_stage()==MAXSTAGE:
+                self.ufo.move_with_paddle()
         elif ch1 == 'd' or ch1 == 'D':
             self.paddle.move_right()
             self.ball.move_with_paddle()
+            if self.game_status.get_stage()==MAXSTAGE:
+                self.ufo.move_with_paddle()
         elif ch1 == 'q' or ch1 =='Q':
             quit()
         elif ch1 == 'p' or ch1 =='P':

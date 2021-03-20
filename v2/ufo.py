@@ -1,6 +1,6 @@
 import time
 from arts import UFO_SHAPE
-from constants import Dimension, Point
+from constants import Dimension, ENEMYHEALTH, FRAMEWIDTH, Point
 from random import randint
 from colorama import *
 
@@ -14,9 +14,10 @@ class UFO:
         '''
         self.paddle = paddle
         self.frame = frame
-        self.point = Point(self.paddle.point.x,5)
+        self.point = Point(self.paddle.point.x-4,5)
         self.shape = self.initial_shape()
         self.dimension = self.get_dimension()
+        self.health = ENEMYHEALTH
         self.draw()
     
 
@@ -25,7 +26,8 @@ class UFO:
         '''
         Render UFO on the base Frame
         '''
-        self.frame.update_frame(self.point, self.shape, self.dimension)
+        if self.health:
+            self.frame.update_frame(self.point, self.shape, self.dimension)
     
 
 
@@ -56,3 +58,46 @@ class UFO:
             if width< len(self.shape[i]):
                 width = len(self.shape[i])
         return Dimension(width,height)
+
+
+
+    def move_with_paddle(self):
+        '''
+        Logic for moving ball with paddle horizontally when stick.
+        '''
+        if self.health<=0:
+            return False
+
+        new_point = Point(
+            self.paddle.point.x-4,
+            self.point.y
+        )
+
+        if (new_point.x<2) or (new_point.x+self.dimension.width>FRAMEWIDTH-2):
+            return
+        self.re_draw(new_point,self.shape,self.dimension)
+        return True
+
+
+    def re_draw(self,new_point,new_shape,new_dimension):
+        '''
+        Render ball on the base Frame Paddle
+        '''
+        self.frame.restore_frame(new_point,new_shape,new_dimension,self.point,self.shape,self.dimension)
+        self.point = new_point
+        self.shape = new_shape
+        self.dimension = new_dimension
+
+
+
+    def reduce_health(self):
+        '''
+        It will reduce the health
+        '''
+        if self.health==0:
+            return
+        
+        self.health -= 1
+        if self.health==0:
+            self.frame.clear_frame_area(self.point,self.dimension)
+            self.frame.status.stage_up()
