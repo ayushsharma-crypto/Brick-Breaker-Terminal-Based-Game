@@ -1,5 +1,6 @@
 # Brick-Breaker-Terminal-Based-Game
-A classic Brick Breaker terminal-based game written in Python3. The objective of the game is to break all the bricks as fast as possible and beat the highest score
+A classic Brick Breaker terminal-based game written in Python3. The objective of the game is to break all the bricks as fast as possible within the given lives.
+This game is DASS assignment2 and assignment3 @ IIIT-H.
 
 * There are two versions v1 & v2. To check move to repective directory.
 * You can find implemented functionality of each version in corressponding Assignment pdf.
