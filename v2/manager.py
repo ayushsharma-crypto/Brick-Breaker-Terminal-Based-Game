@@ -43,7 +43,7 @@ class Manager:
             self.frame.display()
             if (self.game_status.get_stage()==MAXSTAGE):
                 print("UFO HEALTH = ",self.ufo.health,"/",ENEMYHEALTH)
-                print("UFO HEALTH = ",self.paddle.health,"/",PADDLEHEALTH)
+                print("PADDLE HEALTH = ",self.paddle.health,"/",PADDLEHEALTH)
         self.ball.self_move()
         self.user_input()
         self.brick_layout.change_rainbow_brick_color()
