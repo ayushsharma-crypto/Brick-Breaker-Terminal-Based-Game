@@ -134,7 +134,11 @@ class Ball:
         '''
         Says if the object in power up
         '''
-        if (self.frame.current_frame[py][px] in self.powerupcolor) or ( self.frame.current_frame[py][px]==f"{Fore.GREEN}{Style.BRIGHT}|{Style.RESET_ALL}"):
+        if (
+            (self.frame.current_frame[py][px] in self.powerupcolor) or 
+            ( self.frame.current_frame[py][px]==f"{Fore.GREEN}{Style.BRIGHT}|{Style.RESET_ALL}") or
+            ( self.frame.current_frame[py][px]==f"{Fore.RED}{Back.WHITE}{Style.BRIGHT}o{Style.RESET_ALL}")
+        ):
             return True
         return False
 

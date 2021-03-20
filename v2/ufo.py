@@ -1,6 +1,6 @@
 import time
 from arts import UFO_SHAPE
-from constants import Dimension, ENEMYHEALTH, FRAMEWIDTH, Point
+from constants import Dimension, ENEMYHEALTH, FRAMEWIDTH, Point, RELEASEBOMBTP, FRAMEHEIGHT
 from random import randint
 from colorama import *
 
@@ -19,6 +19,8 @@ class UFO:
         self.dimension = self.get_dimension()
         self.health = ENEMYHEALTH
         self.draw()
+        self.tic = time.time()
+        self.bomb = []
     
 
 
@@ -101,3 +103,67 @@ class UFO:
         if self.health<=0:
             self.frame.clear_frame_area(self.point,self.dimension)
             self.frame.status.stage_up()
+
+
+    
+    def release_bomb(self):
+        '''
+        this methhod will cause UFO trow bomb vertically downward.
+        '''
+        x = time.time()
+        if x-self.tic>RELEASEBOMBTP:
+            self.tic = x
+            self.bomb.append(Bomb(self))
+        
+        for bomb in self.bomb:
+            bomb.movey()
+
+
+
+
+class Bomb:
+    '''
+    class for bomb dropped by UFO
+    '''
+    def __init__(self,ufo):
+        '''
+        constructor for the class
+        '''
+        self.ufo = ufo
+        self.point = Point(
+            (self.ufo.point.x+(self.ufo.dimension.width//2)),
+            self.ufo.point.y+self.ufo.dimension.height
+            )
+        self.dimension = Dimension(1,1)
+        self.shape = [[f"{Fore.RED}{Back.WHITE}{Style.BRIGHT}o{Style.RESET_ALL}"]]
+        self.blasted = False
+        self.draw()
+
+
+    def draw(self):
+        '''
+        Render Bomb on the base Frame
+        '''
+        if not self.blasted:
+            self.ufo.frame.update_frame(self.point, self.shape, self.dimension)
+
+
+    def movey(self):
+        '''
+        dropping of the bomb
+        '''
+        if self.blasted:
+            return
+        
+        no = self.ufo.frame.current_frame[self.point.y+1][self.point.x]
+        if self.point.y >= FRAMEHEIGHT-2:
+            self.ufo.frame.clear_frame_area(self.point,self.dimension)
+            self.blasted = True
+        elif no==self.ufo.paddle.shape[0][0]:
+            self.ufo.frame.clear_frame_area(self.point,self.dimension)
+            self.blasted = True
+            print("Now loose one life")
+        else:
+            npoint = Point(self.point.x,self.point.y+1)
+            self.ufo.frame.restore_frame(npoint,self.shape,self.dimension,self.point,self.shape,self.dimension)
+            self.point = Point(self.point.x,self.point.y+1)

@@ -43,6 +43,7 @@ class Manager:
         if flag==True:
             self.frame.display()
             if (self.game_status.get_stage()==MAXSTAGE):
+                self.ufo.release_bomb()
                 print("UFO HEALTH = ",self.ufo.health,"/",ENEMYHEALTH)
                 if (self.only_once) and (self.ufo.health< 3):
                     self.brick_layout.__init__(self.frame)
@@ -53,6 +54,8 @@ class Manager:
         self.brick_layout.refresh_layout()
         if (self.game_status.get_stage()==MAXSTAGE):
             self.ufo.draw()
+            for bomb in self.ufo.bomb:
+                bomb.draw()
         self.ball.float_power_up()
         if (self.game_status.get_stage()<MAXSTAGE) and (self.brick_layout.get_total_brick()==0):
             self.game_status.stage_up()

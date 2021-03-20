@@ -28,6 +28,8 @@ SHOOTINGPADDLEACTIVETIME = 10
 ENEMYHEALTH = 5
 PADDLEHEALTH = 5
 
+RELEASEBOMBTP = 2
+
 class Point:
     '''
     Defines a co-ordinate
