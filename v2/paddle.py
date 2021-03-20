@@ -35,7 +35,7 @@ class Paddle:
 
 
     def shrink_shape(self):
-        # pass
+        pass
         # shape =  [ [ "" for i in range(SHRINKPADDLE) ] for j in range(PADDLEHEIGHT) ]
         # for h in range(PADDLEHEIGHT):
         #     for w in range(SHRINKPADDLE):
@@ -46,6 +46,7 @@ class Paddle:
 
 
     def expand_shape(self):
+        
         pass
         # shape =  [ [ "" for i in range(EXPANDPADDLE) ] for j in range(PADDLEHEIGHT) ]
         # for h in range(PADDLEHEIGHT):
