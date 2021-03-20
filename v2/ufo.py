@@ -162,7 +162,7 @@ class Bomb:
         elif no==self.ufo.paddle.shape[0][0]:
             self.ufo.frame.clear_frame_area(self.point,self.dimension)
             self.blasted = True
-            print("Now loose one life")
+            self.ufo.frame.status.add_kill()
         else:
             npoint = Point(self.point.x,self.point.y+1)
             self.ufo.frame.restore_frame(npoint,self.shape,self.dimension,self.point,self.shape,self.dimension)
