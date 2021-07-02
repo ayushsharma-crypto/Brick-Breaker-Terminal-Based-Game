@@ -77,12 +77,8 @@ class BrickLayout:
             for row in range(len(self.brick_matrix)):
                 orow = len(self.brick_matrix)-1-row
                 for cell in range(len(self.brick_matrix[orow])):
-                    # print("Moving down")
                     self.brick_matrix[orow][cell].move_down(self.shift_down)
-            # print(self.get_lowermost_layout_point())
-            # time.sleep(2)
             if self.get_lowermost_layout_point() > (FRAMEHEIGHT-5):
-                # self.frame.status.add_kill()
                 show_result(self.frame.status.ret_status())
                 self.frame.status.start_game()
 
@@ -178,8 +174,6 @@ class BrickLayout:
         function provides a method to change the color
         of every rainbow brick in the current layout.
         '''
-        # print("here")
-        # time.sleep(0.5)
         for row in range(len(self.brick_matrix)):
             for cell in range(len(self.brick_matrix[row])):
                 self.brick_matrix[row][cell].change_color()

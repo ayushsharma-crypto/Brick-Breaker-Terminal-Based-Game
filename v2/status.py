@@ -84,24 +84,6 @@ class Status:
             'STAGE':self._stage
         }
 
-    # def print_status(self):
-    #     '''
-    #     Print status of the Game
-    #     '''
-    #     print(
-    #         "\033[2;1H" + 
-    #         Fore.WHITE + Back.BLUE + Style.BRIGHT + 
-    #         ("    SCORE: " + 
-    #         str(self._score) + 
-    #         "    |    LIVES: " + 
-    #         str(str(self._life-self._kill)+'/'+str(self._life)) + 
-    #         "    |    TIME: " +
-    #         str(self.get_time()) + 
-    #         "    |    STAGE: " + 
-    #         str(self._stage) +
-    #         "    " )
-    #         )
-    #     print(Style.RESET_ALL)    
     
     def start_game(self,flag = 0):
         '''
